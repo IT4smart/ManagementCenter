@@ -1,0 +1,34 @@
+<check if="{{ @SESSION != null }}">
+<nav class="navbar navbar-default">
+ <div class="container-fluid">
+ <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+ </div>	
+ <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="{{ @BASE.'/dashboard' }}">Home</a></li>
+        <li><a href="{{ @BASE.'/user' }}">{{ @user_admin }}</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ThinClient <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ @BASE.'/device' }}">{{ @devices }}</a></li>
+            <li><a href="{{ @BASE.'/profile' }}">{{ @profiles }}</a></li>
+            <li><a href="{{ @BASE.'/group' }}">{{ @groups }}</a></li>
+            <li><a href="{{ @BASE.'/device/create' }}">{{ @add_device }}</a></li>
+          </ul>
+        <li><a href="#">{{ @system }}</a></li>
+        <li><a href="#">{{ @reports }}</a></li>
+        <li><a href="#">{{ @help }}</a></li>
+        <li><a href="{{ @BASE.'/logout' }}">{{ @logout }}</a></li>
+        </li>
+      </ul>
+ </div>
+ </div>
+</nav>
+</check>
+

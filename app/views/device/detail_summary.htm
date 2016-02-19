@@ -1,0 +1,147 @@
+<div class="row">
+ <div class="col-md-3">
+  <img src="{{ @BASE.'/'.@devices[0].photo }}" alt="{{ @devices.device_name }}" class="img-rounded">
+ </div>
+ <div class="col-md-7">
+  <table class="table table-condensed">
+   <tr>
+    <th>{{ @device_name }}</th>
+    <th>{{ @serialnumber }}</th>
+   </tr>
+   <tr>
+    <td>{{ trim(@devices[0].device_name) }}</td>
+    <td>{{ trim(@devices[0].serialnumber) }}</td>
+   </tr>
+   <tr>
+    <th>{{ @device_type }}</th>
+    <th>{{ @last_check }} </th>
+   </tr>
+   <tr>
+    <td>{{ trim(@devices[0].device_type_name) }}</td>
+    <td></td>
+   </tr>
+  </table>
+
+ </div>
+ <div class="col-md-2">
+  <ul class="nav nav-pills nav-stacked text-center">
+  <li role="presentation" class="active"><a href="{{ @BASE.'/device/restart' }}">{{ @restart_device }}</a></li>
+  <li role="presentation" class="active"><a href="{{ @BASE.'/device/shutdown' }}">{{ @shutdown_device }}</a></li>
+  <li role="presentation" class="active"><a href="{{ @BASE.'/device/refresh' }}">{{ @refresh_device }}</a></li>
+  <li role="presentation" class="active"><a href="{{ @BASE.'/device/unregister' }}">{{ @unregister_device }}</a></li>
+  </ul>
+ </div>
+ <p></p>
+ <div class="col-md-12">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+   <li role="presentation" class="active"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">{{ @summary }}</a></li>
+   <li role="presentation"><a href="#system_info" aria-controls="system_info" role="tab" data-toggle="tab">{{ @system_info }}</a></li>
+   <li role="presentation"><a href="#events" aria-controls="events" role="tab" data-toggle="tab">{{ @events }}</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- summary content -->
+    <div role="tabpanel" class="tab-pane active" id="summary">
+     <!-- Note -->
+     <div class="panel panel-primary">
+      <div class="panel-heading">
+       <h3 class="panel-title text-center">{{ @note }}</h3>
+      </div>
+      <div class="panel-body">
+       {{ @devices[0].note }}
+      </div>
+     </div>
+     <!-- Group -->
+     <div class="panel panel-primary">
+      <div class="panel-heading">
+       <h3 class="panel-title text-center">{{ @group_assignment }}</h3>
+      </div>
+      <table class="table table-bordered">
+       <tr>
+        <th>{{ @group }}</th>
+        <th>{{ @date_assigned }}</th>
+       </tr>
+       <tr>
+        <td>{{ trim(@devices[0].device_group_name) }}</td>
+        <td>{{ @_dateformat,strtotime(@devices[0].group_date_assigned) |format }}</td>
+       </tr>
+      </table>
+     </div>
+     <!-- Profile -->
+     <div class="panel panel-primary">
+      <div class="panel-heading">
+       <h3 class="panel-title text-center">{{ @profile }}</h3>
+      </div>
+      <table class="table table-bordered">
+       <tr>
+        <th>{{ @profile }}</th>
+        <th>{{ @date_assigned }}</th>
+       </tr>
+       <repeat group="{{ @device_profiles }}" value="{{ @device_profile }}"> 
+        <tr>
+         <td>{{ trim(@device_profile.profile_name) }}</td>
+         <td>{{ @_dateformat,strtotime(@device_profile.modify_timestamp) |format }}</td>
+        </tr>
+       </repeat>
+      </table>
+     </div>    
+    </div>
+    <!-- System information content -->
+    <div role="tabpanel" class="tab-pane" id="system_info">
+     <table class="table table-bordered">
+      <tr>
+       <th>{{ @device_name }}</th>
+       <td>{{ @devices[0].device_name }}</td>
+      </tr>
+      <tr>
+       <th>{{ @device_type }}</th>
+       <td>{{ @devices[0].device_type_name }}</td>
+      </tr>
+      <tr>
+       <th>{{ @serialnumber }}</th>
+       <td>{{ @devices[0].serialnumber }}</td>
+      </tr>
+      <tr>
+       <th>{{ @ip }}</th>
+       <td>{{ @devices[0].ip_address }}</td>
+      </tr>
+      <tr>
+       <th>{{ @mac }}</th>
+       <td>{{ @devices[0].mac_address }}</td>
+      </tr>
+     </table>
+    </div>
+    <!-- Event content -->
+    <div role="tabpanel" class="tab-pane" id="events">
+     <table class="table table-bordered">
+      <tr>
+       <th>{{ @timestamp }}</th>
+       <th>{{ @level }}</th>
+       <th>{{ @description }}</th>
+       <th>{{ @state }}</th>
+      </tr>
+      <repeat group="{{ @device_logs }}" value="{{ @device_log }}">
+       <!-- check which state the event has -->
+       <check if="{{ @device_log.status_code=='success' }}">
+        <true>
+         <tr class="bg-success">
+        </true>
+	<false>
+	 <tr clasS="bg-danger">
+	</false>
+       </check>
+
+        <!-- content -->
+        <td>{{ @_dateformat,strtotime(@device_log.modify_timestamp) | format }}</td>
+	<td>{{ @device_log.level }}</td>
+        <td>{{ @device_log.text_translation }}</td>
+	<td>{{ @device_log.status_code }}</td>
+       </tr>
+      </repeat>
+     </table>
+    </div>
+  </div>
+ </div>
+</div>

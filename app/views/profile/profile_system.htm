@@ -1,0 +1,57 @@
+<div class="row">
+ <div class="col-md-2">
+  <include href="profile/profile_nav.htm" />
+ </div>
+ <div class="col-md-10">
+  <form action="{{ @BASE.'/profile/system' }}" method="post" class="form-horizontal">
+   <div class="form-group">
+    <label for="SelectLang" class="col-sm-2 control-label">{{ @language }}</label>
+    <div class="col-sm-8">
+     <select id="SelectLang" name="language" class="form-control">
+      <option value="de_DE.UTF-8">{{ @german }}</option>
+      <option value="en_GB.UTF-8">{{ @english }}</option>
+      <option value="us_GB.UTF-8">{{ @english_usa }}</option>
+     </select>
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="SelectKey" class="col-sm-2 control-label">{{ @keyboard }}</label>
+    <div class="col-sm-8">
+     <select id="SelectKey" name="keyboard" class="form-control">
+      <option value="de">{{ @german }}</option>
+      <option value="en">{{ @english }}</option>
+      <option value="us">{{ @english_usa }}</option>
+     </select>
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="InputTime" class="col-sm-2 control-label">{{ @timeserver }}</label>
+    <div class="col-sm-8">
+     <input type="text" name="timeserver" id="InputTime">
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="InputMgmt" class="col-sm-2 control-label">{{ @mgmtpoint }}</label>
+    <div class="col-sm-8">
+     <input type="text" name="mgmtpoint" id="InputMgmt">
+    </div> 
+   </div>
+   <div class="form-group">
+    <label for="SelectTimeZone" class="col-sm-2 control-label">{{ @timezone }}</label>
+    <div class="col-sm-8">
+     <select id="SelectTimeZone" name="timezone" class="form-control">
+      <option value="Europe/Berlin">{{ @europe_berlin }}</option>
+     </select>
+    </div>
+   </div>
+   <div class="control-group">
+    <div class="col-sm-offset-8 col-sm-2">
+     <input type="hidden" name="update" value="update" />
+     <input type="hidden" name="profile_id" value="{{ @PARAMS.id }}" />
+     <input type="hidden" name="setting_categorie_name" value="System" />
+     <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+    </div>
+   </div>
+  </form> 
+ </div>
+</div>

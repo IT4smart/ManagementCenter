@@ -1,0 +1,59 @@
+<div class="row">
+ <div class="col-md-2">
+  <include href="profile/profile_nav.htm" />
+ </div>
+ <div class="col-md-10">
+  <form action="{{ @BASE.'/profile/update' }}" method="post" class="form-horizontal">
+   <div class="form-group">
+    <label for="InputProfilename" class="col-sm-2 control-label">{{ @profile_name }}</label>
+    <div class="col-sm-8">
+     <input type="text" name="profilename" class="form-control" id="inputProfilename" value="{{ @device_profiles[0].profile_name }}">
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="InputProfileDescription" class="col-sm-2 control-label">{{ @profile_description }}</label>
+    <div class="col-sm-8">
+     <textarea type="text" name="profiledescription" class="form-control" id="inputProfileDescription">{{ @device_profiles[0].description }}</textarea>
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="optionsRadios" class="col-sm-2 control-label">{{ @state }}</label>
+    <div class="input-group">
+     <div class="radio">
+      <label>
+       <check if="{{ @device_profiles[0].state == 1 }}">
+	<true>
+         <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked>
+        </true>
+        <false>
+         <input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
+        </false>
+       </check>
+        {{ @enabled }}
+      </label>
+     </div>
+     <div class="radio">
+      <label>
+       <check if="{{ @device_profiles[0].state == 0 }}">
+	<true>
+         <input type="radio" name="optionsRadios" id="optionsRadios2" value="0" checked>
+	</true>
+	<false>
+         <input type="radio" name="optionsRadios" id="optionsRadios2" value="0">
+	</false>
+       </check>
+        {{ @disabled }}
+      </label>
+     </div>
+   </div>
+ </div>
+ <div class="control-group">
+  <div class="col-sm-offset-2 col-sm-10">
+   <input type="hidden" name="update" value="update" />
+   <input type="hidden" name="profile_id" value="{{ @PARAMS.id }}" />
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @update_profile }}</button>
+  </div>
+ </div>
+</form>
+ </div>
+</div>

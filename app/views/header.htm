@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<base href="{{ @BASE.'/'.@UI }}" />
+		<title>{{ @site }}</title>
+		<!-- Bootstrap -->
+		<link href="../css/bootstrap.css" rel="stylesheet" media="screen" />
+
+		
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<div class="jumbotron">
+				<h1>{{ @page_head }}</h1>
+			</div>
+		<include href="nav.htm" />
+
+		<check if="{{ @message }}">
+            	<div class="alert alert-success">
+                	<button type="button" class="close" data-dismiss="alert">&times;</button>
+                	<strong>{{ @message }}</strong>
+            	</div>
+            	</check>
+
+		<check if="{{ @message_warning }}">
+		 <div class="alert alert-warning">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <strong>{{ @message_warning }}</strong>
+		 </div>
+		</check>
+
+		<check if="{{ @message_failed }}">
+		 <div class="alert alert-danger">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <strong>{{ @message_failed }}</strong>
+		 </div>
+		</check>

@@ -1,0 +1,86 @@
+<div class="row">
+ <div class="col-md-2">
+  <include href="profile/profile_nav.htm" />
+ </div>
+ <div class="col-md-10">
+  <form action="{{ @BASE.'/profile/ctx' }}" method="post" class="form-horizontal">
+   <div class="form-group">
+    <div class="input-group">
+     <label>
+      <check if="{{ @device_profile_settings[0].setting_name == NULL }}">
+       <true>
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" checked>
+       </true>
+       <false>
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="0">
+       </false>
+      </check>
+      {{ @disabled }}
+     </label>
+    </div>
+   </div>
+   <div class="form-group">
+    <div class="input-group">
+     <label>
+      <check if="{{ @device_profile_settings[0].setting_name == 'storefront' }}">
+       <true>
+        <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" checked>
+       </true>
+       <false>
+        <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+       </false>
+      </check>
+      {{ @ctx_xen_desktop }}
+     </label>
+    </div>
+    <label for="InputXenDesktop" class="col-sm-2 control-label">{{ @storefront_url }}</label>
+    <div class="col-sm-8">
+     <check if="{{ @device_profile_settings[0].setting_name == 'storefront' }}">
+      <true>
+       <input type="text" name="storefront_url" class="form-control" id="inputXenDesktop" value="{{ @device_profile_settings[0].value }}">
+      </true>
+      <false>
+       <input type="text" name="storefront_url" class="form-control" id="inputXenDesktop">
+      </false>
+     </check>
+    </div>
+   </div>
+   <div class="form-group">
+    <div class="input-group">
+     <label>
+      <check if="{{ @device_profile_settings[0].setting_name == 'pna' }}">
+       <true>
+        <input type="radio" name="optionsRadios" id="optionsRadios3" value="2" checked>
+       </true>
+       <false>
+        <input type="radio" name="optionsRadios" id="optionsRadios3" value="2">
+       </false>
+      </check>
+      {{ @ctx_pna }}
+     </label>
+     </div>
+     <label for="InputPnAgent" class="col-sm-2 control-label">{{ @pna_url }}</label>
+     <div class="col-sm-8">
+      <check if="{{ @device_profile_settings[0].setting_name == 'pna' }}">
+       <true>
+        <input type="text" name="pna_url" class="form-control" id="inputPnAgent" value="{{ @device_profile_settings[0].value }}">
+       </true>
+       <false>
+        <input type="text" name="pna_url" class="form-control" id="inputPnAgent">
+       </false>
+      </check>
+     </div>
+    </div>
+  </div>
+
+  <div class="control-group">
+   <div class="col-sm-offset-2 col-sm-10">
+    <input type="hidden" name="update" value="update" />
+    <input type="hidden" name="profile_id" value="{{ @PARAMS.id }}" />
+    <input type="hidden" name="setting_categorie_name" value="Citrix" />
+    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+   </div>
+  </div>
+ </form>
+</div>
+</div>

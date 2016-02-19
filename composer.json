@@ -1,0 +1,12 @@
+{
+    "name": "it4s/verwaltungskonsole",
+    "authors": [
+        {
+            "name": "Raphael Lekies",
+            "email": "raphael.lekies@it4s.eu"
+        }
+    ],
+    "require": {
+	"bcosca/fatfree": "3.5.0"
+    }
+}

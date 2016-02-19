@@ -1,0 +1,39 @@
+<div class="row">
+ <div class="col-md-3">
+  <div class="list-group">
+   <p>{{ @groups }}</p>
+   <a href="#" class="list-group-item">{{ @all }}</a>
+   <repeat group="{{ @usergroups }}" value="{{ @usergroup }}">
+    <a href="{{ @BASE.'/user/list/'. @usergroup.idusergroups }}" class="list-group-item">{{ trim(@usergroup.group_name) }}</a>
+   </repeat>
+  </div>
+ </div>
+ <div class="col-md-9">
+  <ul class="nav nav-pills">
+   <li role="presentation" class="active"><a href="{{ @BASE.'/usergroup/create' }}">{{ @create_usergroup }}</a></li>
+   <li role="presentation" class="active"><a href="{{ @BASE.'/user/create' }}" role="button">{{ @create_user }}</a></li>
+  </ul>
+  <br/>
+  <table class="table table-hover table-bordered">
+	<thead>
+	 <tr>
+	  <th scope="col">{{ @username }}</th>
+	  <th scope="col">{{ @group_name }}</th>
+	  <th scope="col">{{ @last_change }}</th>
+	  <th scope="col">{{ @action }}</th>
+	 </tr>
+	</thead>
+
+	<tbody>
+	 <repeat group="{{ @users }}" value="{{ @user }}">
+		<tr>
+		 <td>{{ trim(@user.username) }}</td>
+		 <td>{{ trim(@user.group_name) }}</td>
+		 <td>{{ @_dateformat,strtotime(@user.user_timestamp) | format }}</td>
+		 <td><a href="{{ @BASE.'/user/update/'. @user.idusers }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/user/delete/'. @user.idusers }}"><i class="glyphicon glyphicon-trash"></i></a></td>
+		</tr>
+	 </repeat>
+	</tbody>
+  </table>
+ </div>
+</div>

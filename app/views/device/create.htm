@@ -1,0 +1,65 @@
+<form action="{{ @BASE.'/device/create' }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+ <div class="form-group">
+  <label for="InputDeviceName" class="col-sm-2 control-label">{{ @device_name }}</label>
+  <div class="col-sm-8">
+   <input type="text" name="devicename" class="form-control" id="inputDeviceName" placeholder="{{ @device_name }}">
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputDeviceType" class="col-sm-2 control-label">{{ @device_type }}</label>
+  <div class="col-sm-8">
+   <select name="devicetype" class="form-control">
+    <repeat group="{{ @devicetypes }}" value="{{ @devicetype }}">
+     <option value="{{ @devicetype.iddevice_types }}">{{ trim(@devicetype.device_type_name) }}</option>
+    </repeat>
+   </select>
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputMAC" class="col-sm-2 control-label">{{ @mac }}</label>
+  <div class="col-sm-8">
+   <input type="text" name="mac" class="form-control" id="inputMAC" placeholder="{{ @mac }}">
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputIP" class="col-sm-2 control-label">{{ @ip }}</label>
+  <div class="col-sm-8">
+   <input type="text" name="ip" class="form-control" id="inputIP" placeholder="{{ @ip }}">
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputSerialnumber" class="col-sm-2 control-label">{{ @serialnumber }}</label>
+  <div class="col-sm-8">
+   <input type="text" name="serialnumber" class="form-control" id="inputSerialnumber" placeholder="{{ @serialnumber }}">
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputNote" class="col-sm-2 control-label">{{ @note }}</label>
+  <div class="col-sm-8">
+   <textarea name="note" class="form-control" rows="3" placeholder="{{ @note }}"></textarea>
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputPhoto" class="col-sm-2 control-label">{{ @photo }}</label>
+  <div class="col-sm-8">
+   <input type="file" name="photo" id="exampleInputFile">
+   <p class="help-block">{{ @help_file_upload }}</p>
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputDeviceGroup" class="col-sm-2 control-label">{{ @device_group }}</label>
+  <div class="col-sm-8">
+   <select name="devicegroup" class="form-control">
+    <repeat group="{{ @devicegroups }}" value="{{ @devicegroup }}">
+     <option value="{{ @devicegroup.iddevice_groups }}">{{ trim(@devicegroup.device_group_name) }}</option>
+    </repeat>
+   </select>
+  </div>
+ </div>
+ <div class="control-group">
+  <div class="col-sm-offset-2 col-sm-10">
+   <input type="hidden" name="create" value="create" />
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @add_device }}</button>
+  </div>
+ </div>
+</form>

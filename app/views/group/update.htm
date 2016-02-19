@@ -1,0 +1,59 @@
+<div class="row">
+ <div class="col-md-2">
+  <include href="group/group_nav.htm" />
+ </div>
+ <div class="col-md-10">
+  <form action="{{ @BASE.'/group/update' }}" method="post" class="form-horizontal">
+   <div class="form-group">
+    <label for="InputGroupname" class="col-sm-2 control-label">{{ @group_name }}</label>
+    <div class="col-sm-8">
+     <input type="text" name="groupname" class="form-control" id="inputGroupname" value="{{ @device_groups[0].device_group_name }}">
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="InputGroupDescription" class="col-sm-2 control-label">{{ @group_description }}</label>
+    <div class="col-sm-8">
+     <textarea type="text" name="groupdescription" class="form-control" id="inputGroupDescription">{{ @device_groups[0].description }}</textarea>
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="optionsRadios" class="col-sm-2 control-label">{{ @state }}</label>
+    <div class="input-group">
+     <div class="radio">
+      <label>
+       <check if="{{ @device_groups[0].state == 1 }}">
+	<true>
+         <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked>
+        </true>
+        <false>
+         <input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
+        </false>
+       </check>
+        {{ @enabled }}
+      </label>
+     </div>
+     <div class="radio">
+      <label>
+       <check if="{{ @device_groups[0].state == 0 }}">
+	<true>
+         <input type="radio" name="optionsRadios" id="optionsRadios2" value="0" checked>
+	</true>
+	<false>
+         <input type="radio" name="optionsRadios" id="optionsRadios2" value="0">
+	</false>
+       </check>
+        {{ @disabled }}
+      </label>
+     </div>
+   </div>
+ </div>
+ <div class="control-group">
+  <div class="col-sm-offset-2 col-sm-10">
+   <input type="hidden" name="update" value="update" />
+   <input type="hidden" name="group_id" value="{{ @PARAMS.id }}" />
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @update_group }}</button>
+  </div>
+ </div>
+</form>
+ </div>
+</div>
