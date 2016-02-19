@@ -86,7 +86,7 @@ class GroupController extends Controller {
 			$selected_arr = array();
 			$array['group_id'] = $this->f3->get('POST.group_id');
 			$selected_arr = $this->f3->get('POST.device');	
-			$array['session_user'] = $this->f3->get('POST.session_user');		
+			$array['session_user'] = $this->f3->get('SESSION.user');		
 
 			//var_dump($this->f3->get('POST'));
 
@@ -111,17 +111,30 @@ class GroupController extends Controller {
 					}
 				}
 
+				// we have to hack it here a little bit.
+				// we can't find any result in $device_assigned with the function array_search
+				// so now we place all id's that are already assigned in an extra array.
+				$devices_tmp = array();
+
+				for($k = 0; $k < count($device_assigned); $k++) {
+					$devices_tmp[$k] = $device_assigned[$k]['iddevice'];
+				}
+
 
 				// all clients added to group wil be now added to database
+				// after hacking the original array $device_assigned. Now it must be easier for array_search()
 				$added = 0;
 				$result_add = 0;
 				foreach($selected_arr as $selected) {
-					echo $device_assigned[1]['iddevice']."<br/>";
-					$add = array_search($selected, $device_assigned);
+					//echo $device_assigned[1]['iddevice']."<br/>";
+					//$add = array_search($selected, $devices_tmp);
+					$add = in_array($selected, $devices_tmp);
 					echo 'Device to add: '.$selected.'<br>';
+					echo 'Device found in array: '.$add.'<br>';
+					//var_dump($device_assigned);
 
 					// add device to group
-					if($add ==! false) {
+					if($add == false) {
 						$array['add'] = $selected;
 						var_dump($array);
 						$result_add += $device_assignment->add($array);
