@@ -1,7 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
        <repeat group="{{ @profile_assignments }}" value="{{ @profile_assignment }}">
-	$('#checkbox_profile_{{ @profile_assignment.iddevice }}').prop("checked", true);
+	$('#checkbox_profile_{{ @profile_assignment.iddevice_profiles }}').prop("checked", true);
        </repeat>
 });
 </script>
@@ -10,13 +10,13 @@ $(document).ready(function() {
   <include href="group/group_nav.htm" />
  </div>
  <div class="col-md-offset-4 col-md-6">
-  <form action="{{ @BASE.'/group/clients' }}" method="post" class="form-horizontal">
-   <repeat group="{{ @devices }}" value="{{ @device }}">
+  <form action="{{ @BASE.'/group/profiles' }}" method="post" class="form-horizontal">
+   <repeat group="{{ @profiles }}" value="{{ @profile }}">
     <div class="form-group">
      <div class="checkbox">
       <label>
-       <input type="checkbox" id="checkbox_device_{{ @device.iddevice }}" name="device[]" value="{{ @device.iddevice }}">
-       {{ @device.device_name }}
+       <input type="checkbox" id="checkbox_profile_{{ @profile.iddevice_profiles }}" name="profile[]" value="{{ @profile.iddevice_profiles }}">
+       {{ @profile.profile_name }}
       </label>
      </div>
     </div>
