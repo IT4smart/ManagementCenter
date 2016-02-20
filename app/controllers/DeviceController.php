@@ -75,12 +75,14 @@ class DeviceController extends Controller {
     function detail() {
 	$device = new Device($this->db);
 	$device_profile = new DeviceProfile($this->db);
+	$device_assignment = new DeviceAssignment($this->db);
 
 	// get all information for device_log
 	$array['lang'] = substr($this->f3->get('LANGUAGE'), 0, 2);
 	$array['device_name'] = $this->f3->get('PARAMS.devicename');
 	
 	$this->f3->set('devices', $device->getByName($this->f3->get('PARAMS.devicename')));
+	$this->f3->set('device_groups', $device_assignment->getByDeviceName($array['device_name']));
 	$this->f3->set('device_profiles', $device_profile->getProfilesSummaryByDeviceName($array['device_name']));
 	$this->f3->set('device_logs', $device->getDeviceLog($array));
 	$this->f3->set('page_head', 'Detailed  view of '.$this->f3->get('PARAMS.devicename'));

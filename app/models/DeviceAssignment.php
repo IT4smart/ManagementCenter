@@ -16,6 +16,11 @@ class DeviceAssignment extends DB\SQL\Mapper {
 		return $this->query;	
 	}
 
+	public function getByDeviceName($device_name) {
+		$this->load(array('device_name=?', $device_name));
+		return $this->query;
+	}
+
 	public function delete($array) {
 		$result = $this->db->exec('call sp_delete_device_to_device_group(@out,?,?,?)', array(1=>$array['delete'], 2=>$array['group_id'], 3=>$array['session_user']));
 		return $result;

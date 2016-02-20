@@ -63,10 +63,12 @@
         <th>{{ @group }}</th>
         <th>{{ @date_assigned }}</th>
        </tr>
-       <tr>
-        <td>{{ trim(@devices[0].device_group_name) }}</td>
-        <td>{{ @_dateformat,strtotime(@devices[0].group_date_assigned) |format }}</td>
-       </tr>
+       <repeat group="{{ @device_groups }}" value="{{ @device_group }}">
+        <tr>
+         <td>{{ trim(@device_group.device_group_name) }}</td>
+         <td>{{ @_dateformat,strtotime(@device_group.group_date_assigned) |format }}</td>
+        </tr>
+       </repeat>
       </table>
      </div>
      <!-- Profile -->
