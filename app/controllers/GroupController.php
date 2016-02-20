@@ -88,27 +88,42 @@ class GroupController extends Controller {
 			$selected_arr = $this->f3->get('POST.device');	
 			$array['session_user'] = $this->f3->get('SESSION.user');		
 
-			//var_dump($this->f3->get('POST'));
+			var_dump($this->f3->get('POST'));
+			// at first we get all assigned devices to the specific group.
+			echo "Search for group: ".$array['group_id']."<br>";
+			$device_assigned = $device_assignment->getByGroupId($array['group_id']);
+			//var_dump($device_assigned);
 
-			if($this->f3->get('POST.device') ==! null) {
-				// at first we get all assigned devices to the specific group.
-				// if we can't find the value in selected array. delete it.
-				$device_assigned = $device_assignment->getByGroupId($array['group_id']);
-				//var_dump($device_assigned[0]);
-				//echo 'Device: '.$device_assigned[0]['iddevice'].'<br>';				
+			if(($this->f3->get('POST.device') ==! null) || (count($device_assigned) ==! 0)) {
+
+				echo 'Device: '.$device_assigned[0]['iddevice'].'<br>';				
 
 				// search device in selected array
+				// if we can't find it here we have to delete it.
 				$deleted = 0;
 				$result_delete = 0;
 				for ($i = 0; $i < count($device_assigned); $i++) {
-					$delete = array_search($device_assigned[$i]['iddevice'], $selected_arr);
 
-					// delete the device. it's no more a part of this group
-					if($delete === false) {
+					// if no device is selected we have to delete all from the group.
+					if(count($selected_arr) === 0) {
+						echo "We have to delete all devices from group!<br>";
 						$array['delete'] = $device_assigned[$i]['iddevice'];
+						echo "Device to delete: ".$array['delete']."<br>";
 						$result_delete += $device_assignment->delete($array);
 						$deleted++;
+					} else {
+						$delete = array_search($device_assigned[$i]['iddevice'], $selected_arr);
+						echo "Device delete: ".$delete."<br>";
+
+						// delete the device. it's no more a part of this group
+						if($delete === false) {
+							$array['delete'] = $device_assigned[$i]['iddevice'];
+							echo "Device to delete: ".$array['delete']."<br>";
+							$result_delete += $device_assignment->delete($array);
+							$deleted++;
+						}
 					}
+					
 				}
 
 				// we have to hack it here a little bit.
@@ -125,35 +140,40 @@ class GroupController extends Controller {
 				// after hacking the original array $device_assigned. Now it must be easier for array_search()
 				$added = 0;
 				$result_add = 0;
-				foreach($selected_arr as $selected) {
-					//echo $device_assigned[1]['iddevice']."<br/>";
-					//$add = array_search($selected, $devices_tmp);
-					$add = in_array($selected, $devices_tmp);
-					echo 'Device to add: '.$selected.'<br>';
-					echo 'Device found in array: '.$add.'<br>';
-					//var_dump($device_assigned);
+				// only add something if there was something selected.
+				if(count($selected_arr) ==! 0) {
+					foreach($selected_arr as $selected) {
+						//echo $device_assigned[1]['iddevice']."<br/>";
+						//$add = array_search($selected, $devices_tmp);
+						$add = in_array($selected, $devices_tmp);
+						echo 'Device to add: '.$selected.'<br>';
+						echo 'Device found in array: '.$add.'<br>';
+						//var_dump($device_assigned);
 
-					// add device to group
-					if($add == false) {
-						$array['add'] = $selected;
-						var_dump($array);
-						$result_add += $device_assignment->add($array);
-						$added++;
+						// add device to group
+						if($add == false) {
+							$array['add'] = $selected;
+							var_dump($array);
+							$result_add += $device_assignment->add($array);
+							$added++;
+						}
 					}
 				}
 
 				if(($result_add == $added) && ($result_delete == $deleted) && (($result_add > 0 ) || ($resulte_delete > 0))) {
 					echo "Result add: ".$result_add."<br>";
 					echo "Added: ".$added."<br>";
+					echo "Result delete: ".$result_delete."<br>";
+					echo "Deleted: ".$deleted."<br>";
 
 
-					//$this->f3->reroute('/group/success/'.$this->f3->get('reroute_clients_success'));
+					$this->f3->reroute('/group/success/'.$this->f3->get('reroute_clients_success'));
 				} else {
-					//$this->f3->reroute('/group/failed/'.$this->f3->get('reroute_clients_failed'));
+					$this->f3->reroute('/group/failed/'.$this->f3->get('reroute_clients_failed'));
 				}
 
 			} else {
-				//$this->f3->reroute('/group/warning/'.$this->f3->get('reroute_clients_warning'));
+				$this->f3->reroute('/group/warning/'.$this->f3->get('reroute_clients_warning'));
 			}
 			
 		} else {

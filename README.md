@@ -125,3 +125,15 @@ Es kann unter umständen auch mit LaTex gearbeitet werden als Sprache.
 In diesem Artikel ist ausführlich beschrieben wie Code zu dokumentieren ist: 
 * http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html
 * https://code.google.com/p/agiletracking/wiki/DoxygenSyntax
+
+
+# Todo #
+## Device ##
+Dem Gerät muss noch die Option gegeben werden DHCP oder Static für die IP / Gateway und Netmask einzustellen.
+
+## Profile ##
+Beim mergen aller Profile muss entweder ein RDP oder Citrix eintrag vorhanden sein, sonst kann nichts an das Gerät übertragen werden.
+
+## System ##
+Backup der Datenbank auf FTP / Samba-share.
+Einstellbar in welchem Zeitintervall die Backups erstellt werden.
