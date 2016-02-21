@@ -27,8 +27,8 @@
 	<tbody>
 	 <repeat group="{{ @users }}" value="{{ @user }}">
 		<tr>
-		 <td><a href="{{ @BASE.'/user/update/'. @user.idusers }}">{{ trim(@user.username) }}</a></td>
-		 <td>{{ trim(@user.group_name) }}</td>
+		 <td><a href="{{ @BASE.'/user/detail/'. @user.idusers }}">{{ trim(@user.username) }}</a></td>
+		 <td><a href="{{ @BASE.'/usergroup/detail/'.@usergroup.idusergroups }}">{{ trim(@user.group_name) }}</a></td>
 		 <td>{{ @_dateformat,strtotime(@user.user_timestamp) | format }}</td>
 		 <td><a href="{{ @BASE.'/user/delete/'. @user.idusers }}"><i class="glyphicon glyphicon-trash"></i></a></td>
 		</tr>

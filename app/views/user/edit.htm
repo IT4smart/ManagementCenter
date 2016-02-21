@@ -1,46 +1,168 @@
-<form action="{{ @BASE.'/user/update' }}" method="post" class="form-horizontal">
- <div class="form-group">
-  <label for="InputUsername" class="col-sm-2 control-label">Username</label>
-  <div class="col-sm-8">
-   <input type="text" name="username" class="form-control" id="inputUsername" placeholder="{{ @users[0].username }}" readonly>
-  </div>
- </div>
- <div class="form-group">
-  <label for="InputEmail" class="col-sm-2 control-label">E-Mail</label>
-  <div class="col-sm-8">
-   <input type="text" name="email" class="form-control" id="inputEmail" placeholder="{{ @users[0].email }}">
-  </div>
- </div>
- <div class="form-group">
-  <label for="InputPassword" class="col-sm-2 control-label">Password</label>
-  <div class="col-sm-8">
-   <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
-  </div>
- </div>
- <div class="form-group">
-  <label for="InputPassword2" class="col-sm-2 control-label">Re-enter Password</label>
-  <div class="col-sm-8">
-   <input type="password" name="password2" class="form-control" id="inputPassword2" placeholder="Re-enter password">
-  </div>
- </div>
- <div class="form-group">
-  <label for="InputUserGroup" class="col-sm-2 control-label">Usergroup</label>
-  <div class="col-sm-8">
-   <select name="usergroup" class="form-control">
-    <repeat group="{{ @usergroups }}" value="{{ @usergroup }}">
-     <check if="{{ @users[0].usergroups_idusergroups == @usergroup.idusergroups }}">
-      <option value="{{ @usergroup.idusergroups }}" selected>{{ trim(@usergroup.group_name) }}</option>
-     </check>
-     <option value="{{ @usergroup.idusergroups }}">{{ trim(@usergroup.group_name) }}</option>
-    </repeat>
-   </select>
-  </div>
- </div>
- <div class="control-group">
-  <div class="col-sm-offset-2 col-sm-10">
-   <input type="hidden" name="update" value="update" />
-   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> Update User</button>
-  </div>
- </div>
+<script>
+// we disbale the save button if the new password do not match.
+$(document).ready(function () {
+   $("#save").prop('disabled', true);
+   $("#save-1").prop('disabled', true);
+   $("#InputPassword2").keyup(checkPasswordMatch);
+   $("#InputPassword").keyup(checkPasswordMatch);
+   $("#InputEmail").keyup(isValidEmailAddress);
+});
 
-</form>
+function checkPasswordMatch() {
+    var password = $("#InputPassword").val();
+    var confirmPassword = $("#InputPassword2").val();
+
+    if (password != confirmPassword) {
+	$("#check-1").addClass("has-error has-feedback");
+	$("#check-2").addClass("has-error has-feedback");
+	$("#save").prop('disabled', true);
+    } else {
+       	$("#check-1").removeClass("has-error").addClass("has-success");
+	$("#check-2").removeClass("has-error").addClass("has-success");
+	$("#save").prop('disabled', false);
+    }
+}
+
+function isValidEmailAddress() {
+    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    var emailAddress = $("#InputEmail").val();
+    if(!pattern.test(emailAddress)) {
+	console.log("Error");
+	$("check-3").addClass("has-error has-feedback");
+	$("#save-1").prop("disabled", true);
+    } else {
+	console.log("Success");
+	$("check-3").removeClass("has-error").addClass("has-success");
+	$("#save-1").prop("disabled", false);
+    }
+}
+
+</script>
+
+<div class="row">
+ <div class="col-md-3">
+  <img src="{{ @BASE.'/'.@users[0].user_photo }}" alt="{{ @users[0].username }}" class="img-circle">
+ </div>
+ <div class="col-md-4">
+  <table class="table table-condensed">
+   <tr>
+    <th>{{ @username }}</th>
+    <td>{{ @users[0].username }}</td>
+    <td></td>
+   </tr>
+   <tr>
+    <th>{{ @usergroup }}</th>
+    <td>{{ @users[0].group_name }}</td>
+    <td></td>
+   </tr>
+   <tr>
+    <th>{{ @mail }}</th>
+    <td>{{ @users[0].email }}</td>
+    <td><button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-pencil"></i></button></td>
+   </tr>
+  </table>
+  
+  <!-- Modal -->
+  <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog">
+    <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <h4 class="modal-title">{{ @change_email }}</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{ @BASE.'/user/updatemail' }}" method="post" class="form-horizontal">
+	 <div id="check-3" class="form-group">
+	  <label for="InputEmail" class="col-sm-2 control-label">{{ @mail }}</label>
+	  <div class="col-sm-8">
+           <input type="text" name="email" class="form-control" id="InputEmail" placeholder="{{ @users[0].email }}">
+          </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+	<input type="hidden" name="user_id" value="{{ @users[0].idusers }}">
+	<input type="hidden" name="update" value="update">
+	<button id="save-1" type="submit" class="btn btn-primary">{{ @save_changes }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ @cancel }}</button>
+       </form>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+ </div>
+ <div class="col-md-3 col-md-offset-2">
+  <ul class="list-group">
+   <li class="list-group-item">{{ @last_change }}: {{ @users[0].user_timestamp }}</li>
+   <li class="list-group-item">{{ @last_change_by }}: {{ @users[0].user_modify }}</li>
+  </ul>
+ </div>
+</div>
+<div class="row top-buffer">
+ <hr>
+</div>
+<div class="row top-buffer">
+ <div class="col-md-12">
+  <form action="{{ @BASE.'/user/updatepw' }}" method="post" class="form-horizontal">
+   <div class="form-group">
+    <label for="InputOldPassword" class="col-sm-2 control-label">{{ @password_old }}</label>
+    <div class="col-sm-8">
+     <input type="password" name="password_old" class="form-control" id="inputOldPassword" placeholder="{{ @password_old }}">
+    </div>
+   </div>
+   <div class="form-group" id="check-1">
+    <label for="InputPassword" class="col-sm-2 control-label">{{ @password }}</label>
+    <div class="col-sm-8">
+     <input type="password" name="password_new" class="form-control" id="InputPassword" placeholder="{{ @password }}">
+    </div>
+   </div>
+   <div class="form-group" id="check-2">
+    <label for="InputPassword2" class="col-sm-2 control-label">{{ @password2 }}</label>
+    <div class="col-sm-8">
+     <input type="password" name="password_new2" class="form-control" id="InputPassword2" placeholder="{{ @password2 }}">
+    </div>
+   </div>
+   <div class="control-group top-buffer">
+    <div class="col-sm-offset-8 col-sm-10">
+     <input type="hidden" name="update" value="update" />
+     <input type="hidden" name="user_id" value="{{ @users[0].idusers }}">
+     <button id="save" type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+     <a href="{{ @BASE.'/user' }}" class="btn btn-default" role="button"> {{ @cancel }}</a>
+    </div>
+   </div>
+  </form>
+ </div>
+</div>
+<div class="row top-buffer">
+ <hr>
+</div>
+<div class="row top-buffer">
+ <div class="col-md-12">
+  <form action="{{ @BASE.'/user/updategroup' }}" method="post" class="form-horizontal">
+  <div class="form-group">
+   <label for="InputUserGroup" class="col-sm-2 control-label">{{ @usergroup }}</label>
+   <div class="col-sm-8">
+    <select name="usergroup" class="form-control">
+     <repeat group="{{ @usergroups }}" value="{{ @usergroup }}">
+      <check if="{{ @users[0].idusergroups == @usergroup.idusergroups }}">
+       <true>
+        <option value="{{ @usergroup.idusergroups }}" selected>{{ trim(@usergroup.group_name) }}</option>
+       </true>
+       <false>
+        <option value="{{ @usergroup.idusergroups }}">{{ trim(@usergroup.group_name) }}</option>
+       </false>
+      </check>
+     </repeat>
+    </select>
+   </div>
+  </div>
+  <div class="control-group top-buffer">
+   <div class="col-sm-offset-8 col-sm-10">
+    <input type="hidden" name="update" value="update" />
+    <input type="hidden" name="user_id" value="{{ @users[0].idusers }}" />
+    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+    <a href="{{ @BASE.'/user' }}" class="btn btn-default" role="button"> {{ @cancel }}</a>
+   </div>
+  </div>
+  </form>
+ </div>
+</div>

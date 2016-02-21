@@ -36,7 +36,8 @@
  <div class="control-group">
   <div class="col-sm-offset-2 col-sm-10">
    <input type="hidden" name="create" value="create" />
-   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @add_user }}</button>
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+   <a href="{{ @BASE.'/user' }}" class="btn btn-default" role="button"> {{ @cancel }}</a>
   </div>
  </div>
 </form>
