@@ -1,0 +1,169 @@
+<div class="row">
+ <div class="col-md-5">
+  <table class="table">
+   <tr>
+    <th>{{ @group_name }}</th>
+    <td>{{ @usergroups[0].group_name }}</td>
+   </tr>
+    <th>{{ @description }}</th>
+    <td>{{ @usergroups[0].description }}</td>
+  </table>
+ </div>
+ <div class="col-md-offset-4 col-md-3">
+  <ul class="list-group">
+   <li class="list-group-item">{{ @last_change }}: {{ @usergroups[0].modify_timestamp }}</li>
+   <li class="list-group-item">{{ @last_change_by }}: {{ @usergroups[0].modify_user }}</li>
+  </ul>
+  <button type="button" class="col-md-offset-4 btn btn-primary">{{ @delete_usergroup }}</button>
+ </div>
+</div>
+<div class="row top-buffer">
+ <hr>
+</div>
+<div class="row top-buffer">
+<form action="{{ @BASE.'/userright/update' }}" method="post">
+ <div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <h3 class="panel-title">{{ @device }}</h3>
+   </div>
+   <div class="panel-body">
+    <repeat group="{{ @userright_device }}" value="{{ @device }}">
+     <div class="form-group">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" id="checkbox_device_{{ @device.iduser_rights }}" name="user_rights[]" value="{{ @device.user_right_name }}">
+        {{ @device.user_right_name }}
+       </label>
+      </div>
+     </div>
+    </repeat>
+   </div>
+  </div>
+ </div>
+ <div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <h3 class="panel-title">{{ @profile }}</h3>
+   </div>
+   <div class="panel-body">
+    <repeat group="{{ @userright_profile }}" value="{{ @profile }}">
+     <div class="form-group">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" id="checkbox_profile_{{ @profile.iduser_rights }}" name="user_rights[]" value="{{ @profile.user_right_name }}">
+        {{ @profile.user_right_name }}
+       </label>
+      </div>
+     </div>
+    </repeat>
+   </div>
+  </div>
+ </div>
+ <div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <h3 class="panel-title">{{ @profilegroup }}</h3>
+   </div>
+   <div class="panel-body">
+    <repeat group="{{ @userright_profilegroup }}" value="{{ @profilegroup }}">
+     <div class="form-group">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" id="checkbox_profilegroup_{{ @profilegroup.iduser_rights }}" name="user_rights[]" value="{{ @profilegroup.user_right_name }}">
+        {{ @profilegroup.user_right_name }}
+       </label>
+      </div>
+     </div>
+    </repeat>
+   </div>
+  </div>
+ </div>
+ <div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <h3 class="panel-title">{{ @user }}</h3>
+   </div>
+   <div class="panel-body">
+    <repeat group="{{ @userright_user }}" value="{{ @user }}">
+     <div class="form-group">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" id="checkbox_user_{{ @user.iduser_rights }}" name="user_rights[]" value="{{ @user.user_right_name }}">
+        {{ @user.user_right_name }}
+       </label>
+      </div>
+     </div>
+    </repeat>
+   </div>
+  </div>
+ </div>
+ <div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <h3 class="panel-title">{{ @usergroup }}</h3>
+   </div>
+   <div class="panel-body">
+    <repeat group="{{ @userright_usergroup }}" value="{{ @usergroup }}">
+     <div class="form-group">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" id="checkbox_usergroup_{{ @usergroup.iduser_rights }}" name="user_rights[]" value="{{ @usergroup.user_right_name }}">
+        {{ @usergroup.user_right_name }}
+       </label>
+      </div>
+     </div>
+    </repeat>
+   </div>
+  </div>
+ </div>
+ <div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <h3 class="panel-title">{{ @report }}</h3>
+   </div>
+   <div class="panel-body">
+    <repeat group="{{ @userright_report }}" value="{{ @report }}">
+     <div class="form-group">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" id="checkbox_report_{{ @usergroup.iduser_rights }}" name="user_rights[]" value="{{ @report.user_right_name }}">
+        {{ @report.user_right_name }}
+       </label>
+      </div>
+     </div>
+    </repeat>
+   </div>
+  </div>
+ </div>
+ <div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+    <h3 class="panel-title">{{ @right }}</h3>
+   </div>
+   <div class="panel-body">
+    <repeat group="{{ @userright_right }}" value="{{ @right }}">
+     <div class="form-group">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" id="checkbox_right_{{ @right.iduser_rights }}" name="user_rights[]" value="{{ @right.user_right_name }}">
+        {{ @right.user_right_name }}
+       </label>
+      </div>
+     </div>
+    </repeat>
+   </div>
+  </div>
+ </div>
+</div>
+<div class="row top-buffer">
+ <div class="control-group">
+  <div class="col-sm-offset-9 col-sm-3">
+   <input type="hidden" name="update" value="update" />
+   <input type="hidden" name="group_id" value="{{ @PARAMS.id }}" />
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+   <a href="{{ @BASE.'/user' }}" class="btn btn-default" role="button"> {{ @cancel }}</a>
+  </div>
+ </div>
+</form>
+</div>

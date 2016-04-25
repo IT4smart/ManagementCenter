@@ -21,6 +21,11 @@ class User extends DB\SQL\Mapper {
 		return $this->query;
 	}
 
+	public function getByUsergroupId($id) {
+		$this->load(array('idusergroups=?', $id));
+		return $this->query;
+	}
+
 	public function add($array) {
 		// hash password
 		$password = password_hash($array['password'], PASSWORD_DEFAULT);

@@ -42,7 +42,7 @@
 		 <td><a href="{{ @BASE.'/device/detail_summary/'.@device.device_name }}">{{ trim(@device.device_name) }}</a></td>
 		 <td>{{ trim(@device.state) }}</td>
 		 <td>{{ trim(@device.ip_address) }}</td>
-		 <td><a href="{{ @BASE.'/device/update/'. @device.iddevice }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/device/delete/'. @user.iddevice }}"><i class="glyphicon glyphicon-trash"></i></a></td>
+		 <td><a href="{{ @BASE.'/device/update/'. @device.iddevice }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/device/delete/'. @device.iddevice }}"><i class="glyphicon glyphicon-trash"></i></a></td>
 		</tr>
 	 </repeat>
 	</tbody>

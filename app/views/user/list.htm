@@ -2,7 +2,7 @@
  <div class="col-md-3">
   <div class="list-group">
    <p>{{ @groups }}</p>
-   <a href="#" class="list-group-item">{{ @all }}</a>
+   <a href="{{ @BASE.'/user' }}" class="list-group-item">{{ @all }}</a>
    <repeat group="{{ @usergroups }}" value="{{ @usergroup }}">
     <a href="{{ @BASE.'/user/list/'. @usergroup.idusergroups }}" class="list-group-item">{{ trim(@usergroup.group_name) }}</a>
    </repeat>
@@ -28,7 +28,7 @@
 	 <repeat group="{{ @users }}" value="{{ @user }}">
 		<tr>
 		 <td><a href="{{ @BASE.'/user/detail/'. @user.idusers }}">{{ trim(@user.username) }}</a></td>
-		 <td><a href="{{ @BASE.'/usergroup/detail/'.@usergroup.idusergroups }}">{{ trim(@user.group_name) }}</a></td>
+		 <td><a href="{{ @BASE.'/usergroup/detail/'.@user.idusergroups }}">{{ trim(@user.group_name) }}</a></td>
 		 <td>{{ @_dateformat,strtotime(@user.user_timestamp) | format }}</td>
 		 <td><a href="{{ @BASE.'/user/delete/'. @user.idusers }}"><i class="glyphicon glyphicon-trash"></i></a></td>
 		</tr>

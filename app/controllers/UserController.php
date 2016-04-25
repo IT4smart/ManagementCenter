@@ -183,4 +183,44 @@ class UserController extends Controller {
 		$this->f3->set('view', 'usergroup/create.htm');
 	}
    }
+
+   /**
+    * Filter list of user's by usergroup
+    */
+   function byUsergroup() {
+	$user = new User($this->db);
+	$usergroup = new UserGroup($this->db);
+
+        $this->f3->set('page_head', $this->f3->get('page_head_user_overview'));
+        $this->f3->set('users', $user->getByUsergroupId($this->f3->get('PARAMS.id')));
+	$this->f3->set('usergroups', $usergroup->all());
+        $this->f3->set('view', 'user/list.htm');
+   }
+
+   /**
+    * Show details of a specific usergroup
+    */
+   function usergroup() {
+	$usergroup = new UserGroup($this->db);
+	$userright = new UserRight($this->db);
+	$this->f3->set('page_head', $this->f3->get('page_head_usergroup_detail'));
+	$this->f3->set('usergroups', $usergroup->getById($this->f3->get('PARAMS.id')));
+	$this->f3->set('userright_device', $userright->getUserrightsByGroup("Device"));
+	$this->f3->set('userright_profile', $userright->getUserrightsByGroup("Profile"));
+	$this->f3->set('userright_profilegroup', $userright->getUserrightsByGroup("Profilegroup"));
+	$this->f3->set('userright_user', $userright->getUserrightsByGroup("User"));
+	$this->f3->set('userright_usergroup', $userright->getUserrightsByGroup("Usergroup"));
+	$this->f3->set('userright_report', $userright->getUserrightsByGroup("Report"));
+	$this->f3->set('userright_right', $userright->getUserrightsByGroup("Right"));
+	$this->f3->set('view', 'usergroup/detail.htm');
+   }
+
+   /**
+    * Update userrights
+    */
+   function userright_update() {
+	if($this->f3->exists('POST.update')) {
+
+	}
+   }
 }
