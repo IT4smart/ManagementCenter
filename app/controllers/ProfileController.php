@@ -15,6 +15,9 @@
  */
 
 class ProfileController extends Controller {
+    	function afterroute() {
+            echo Template::instance()->render('layout.htm');
+	}
 
 	function index() {
 		$device_profile = new DeviceProfile($this->db);

@@ -1,7 +1,10 @@
 <?php
 
 class MainController extends Controller {
-
+    	function afterroute() {
+            echo Template::instance()->render('layout.htm');
+	}
+    
 	function beforeroute() {
 	
 		// we check if user is logged in

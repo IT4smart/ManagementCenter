@@ -1,0 +1,21 @@
+CREATE TABLE `scheduled_tasks` (
+  `idscheduled_tasks` int(11) NOT NULL AUTO_INCREMENT,
+  `commands_idcommands` int(11) NOT NULL,
+  `device_iddevice` int(11) NOT NULL,
+  `task_name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
+  `minute` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `hour` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `day` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `month` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `dayofweek` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `insert_timestamp` datetime NOT NULL,
+  `insert_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `modify_timestamp` datetime NOT NULL,
+  `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`idscheduled_tasks`),
+  KEY `fk_sheduled_tasks_commands1` (`commands_idcommands`),
+  KEY `fk_scheduled_tasks_device1` (`device_iddevice`),
+  CONSTRAINT `fk_scheduled_tasks_device1` FOREIGN KEY (`device_iddevice`) REFERENCES `device` (`iddevice`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sheduled_tasks_commands1` FOREIGN KEY (`commands_idcommands`) REFERENCES `commands` (`idcommands`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci

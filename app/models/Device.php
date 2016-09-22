@@ -33,5 +33,10 @@ class Device extends DB\SQL\Mapper {
 		$result = $this->db->exec('call sp_show_logs(?,?)', array(1=>$devicename['device_name'], 2=>$devicename['lang']));
 		return $result;
 	}
+        
+        public function getByMac($mac) {
+            $this->load(array('mac_address=?', $mac));
+            return $this->query;
+        }
 }
 

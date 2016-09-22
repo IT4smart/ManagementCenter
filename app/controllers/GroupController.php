@@ -15,6 +15,10 @@
  */
 
 class GroupController extends Controller {
+    	function afterroute() {
+            echo Template::instance()->render('layout.htm');
+	}
+        
 	function index() {
 		$device_group = new DeviceGroup($this->db);
 		$this->f3->set('device_groups', $device_group->all());

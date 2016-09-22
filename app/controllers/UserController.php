@@ -6,7 +6,10 @@ class UserController extends Controller {
 			$this->f3->reroute('/login');
 		}
 	}*/
-
+    	function afterroute() {
+            echo Template::instance()->render('layout.htm');
+	}
+    
 	function index() {
 		$user = new User($this->db);
         	$usergroup = new UserGroup($this->db);

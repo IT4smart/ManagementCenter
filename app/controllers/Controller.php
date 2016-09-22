@@ -16,7 +16,7 @@ class Controller {
 	}
 
 	function afterroute() {
-		echo Template::instance()->render('layout.htm');
+		//echo Template::instance()->render('layout.htm');
 	}
 
 	function __construct() {

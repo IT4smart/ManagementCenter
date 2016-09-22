@@ -14,7 +14,10 @@
  */
 
 class DeviceController extends Controller {
-
+    function afterroute() {
+        echo Template::instance()->render('layout.htm');
+    }
+    
     /**
      * Generate a random string. Default length of the string is 10
      *

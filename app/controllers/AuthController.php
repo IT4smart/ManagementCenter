@@ -1,6 +1,10 @@
 <?php
 
 class AuthController extends Controller {
+    	function afterroute() {
+            echo Template::instance()->render('layout.htm');
+	}
+    
 	function render() {
 		$this->f3->set('page_head', $this->f3->get('page_head_login'));
 		$this->f3->set('message', $this->f3->get('PARAMS.message'));
