@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_state`(OUT sp_result int, IN sp_deviceid int, IN sp_state varchar(45), IN sp_user varchar(45))
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_registering_job`(OUT sp_result int, IN sp_id int, IN sp_state varchar(45), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -8,7 +8,8 @@ BEGIN
     --  Last change : 11.10.2016
     --  Version     : 1.0
     --  Author      : Raphael Lekies (IT4S)
-    --  Description : We insert log entries, atfer the device updated
+    --  Description : We update the device registering jobs and insert some
+    --                logs.
     --
     --  11.10.2016  : Created
     --
@@ -17,7 +18,8 @@ BEGIN
 
     -- declare variable
     declare v_message text;
-    declare v_device_name varchar(45);
+    declare v_mac varchar(45);
+    declare v_devicename varchar(45);
     DECLARE code CHAR(5) DEFAULT '00000';
     DECLARE msg TEXT;
     DECLARE rows INT;
@@ -27,23 +29,25 @@ BEGIN
         BEGIN
             GET DIAGNOSTICS CONDITION 1
                 code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
-        END;
+        END;    
         
-	-- get device name
-    set v_device_name = (SELECT `device_name` FROM `device` WHERE `iddevice` = sp_deviceid);
-        
-	-- update device state
-    update `device` set `state` = sp_state, `modify_timestamp` = now(), `modify_user` = sp_user
-    where `iddevice` = sp_deviceid;
-
+	update device_registering_jobs 
+    set `state` = sp_state, `modify_timestamp` = now(), `modify_user` = sp_user 
+    where `iddevice_registering_jobs` = sp_id;
+    
+    set v_mac = (SELECT `mac` from `device_registering_jobs` where `iddevice_registering_jobs` = sp_id);
+    set v_devicename = (SELECT `hostname ` from `device_registering_jobs` where `iddevice_registering_jobs` = sp_id);
+    
     -- check whether the insert was successful
     IF code = '00000' THEN
         -- insert was successfull
-        set sp_result = 1;
+		set sp_result = 1;
+        
+        -- prepare message for logging
+        set v_message = (SELECT CONCAT(v_mac, '#', sp_state));
         
         -- now we can write a log
-        set v_message = (SELECT CONCAT(v_device_name, '#', sp_state));
-        call sp_insert_log_entry('', 61, v_message, 'success', sp_user);
+        call sp_insert_log_entry('', 86, v_message, 'success', sp_user);
         
     else
         -- insert failed
@@ -51,11 +55,11 @@ BEGIN
         
         -- now we can write a log
         -- info for user
-        call sp_insert_log_entry('', 62, v_device_name, 'failed', sp_user);
+        set v_message = (SELECT CONCAT(v_mac, '#', v_devicename));
+        call sp_insert_log_entry('', 84, v_message, 'failed', sp_user);
         
         -- debugging
-        set v_message = (SELECT CONCAT(v_device_name, '#', code, '#', msg));
-        call sp_insert_log_entry('', 63, v_message, 'failed', sp_user);
-    end if;       
-
+        set v_message = (SELECT CONCAT(v_mac, '#', v_devicename, '#', `code`, '#', msg));
+        call sp_insert_log_entry('', 88, v_message, 'failed', sp_user);
+    end if;
 END

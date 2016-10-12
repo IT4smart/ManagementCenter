@@ -18,17 +18,32 @@
    </tr>
    <tr>
     <td>{{ trim(@devices[0].device_type_name) }}</td>
-    <td></td>
+    <td>
+        <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+            <check if="{{ @pdata.name == 'last_check' }}">
+                <true>{{ @_dateformat,strtotime(@pdata.value_date) |format }}</true>           
+            </check>
+        </repeat>
+    </td>
    </tr>
   </table>
 
  </div>
  <div class="col-md-2">
   <ul class="nav nav-pills nav-stacked text-center">
-  <li role="presentation" class="active"><a href="{{ @BASE.'/device/restart' }}">{{ @restart_device }}</a></li>
+  <li role="presentation" class="active"><a href="{{ @BASE.'/device/restart/'.@devices[0].iddevice }}">{{ @restart_device }}</a></li>
   <li role="presentation" class="active"><a href="{{ @BASE.'/device/shutdown' }}">{{ @shutdown_device }}</a></li>
   <li role="presentation" class="active"><a href="{{ @BASE.'/device/refresh' }}">{{ @refresh_device }}</a></li>
-  <li role="presentation" class="active"><a href="{{ @BASE.'/device/unregister' }}">{{ @unregister_device }}</a></li>
+  <check if="{{ @devices[0].state == 'pending' }}">
+      <true>
+        <li role="presentation" class="active text-capitalize"><a href="{{ @BASE.'/device/activate/'.@devices[0].iddevice }}">{{ @activate_device }}</a></li>
+      </true>
+  </check>
+  <check if="{{ @devices[0].state == 'activated' }}">
+      <true>
+        <li role="presentation" class="active text-capitalize"><a href="{{ @BASE.'/device/deactivate/'.@devices[0].iddevice }}">{{ @deactivate_device }}</a></li>
+      </true>     
+  </check>
   </ul>
  </div>
  <p></p>
@@ -106,12 +121,33 @@
        <td>{{ @devices[0].serialnumber }}</td>
       </tr>
       <tr>
-       <th>{{ @ip }}</th>
-       <td>{{ @devices[0].ip_address }}</td>
-      </tr>
-      <tr>
        <th>{{ @mac }}</th>
        <td>{{ @devices[0].mac_address }}</td>
+      </tr>
+      <tr>
+          <th>{{ @state }}</th>
+          <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'state' }}">
+                    <true>
+                        <check if="{{ @pdata.value == 'online' }}">
+                            <true><span class="bg-success">{{ @pdata.value }}</span></true>
+                            <false><span class="bg-danger">{{ @pdata.value }}</span></false>
+                        </check>
+                    </true>           
+                </check>
+            </repeat>
+          </td>
+      </tr>
+      <tr>
+          <th>{{ @uptime }}</th>
+          <td>
+              <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                  <check if="{{ @pdata.name == 'uptime' }}"> 
+                      <true>{{ @pdata.value / 60 / 60 }} <span class="text-capitalize">{{ @hours }}</span></true>
+                  </check>
+              </repeat>
+          </td>
       </tr>
      </table>
     </div>

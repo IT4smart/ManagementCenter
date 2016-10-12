@@ -1,3 +1,8 @@
+USE `verwaltungskonsole_v1`;
+DROP procedure IF EXISTS `sp_update_command_jobs`;
+
+DELIMITER $$
+USE `verwaltungskonsole_v1`$$
 CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_command_jobs`(OUT sp_result int, IN sp_user varchar(45), IN sp_idcommand_jobs int, IN sp_status varchar(7), IN sp_message text)
 BEGIN
     -- ------------------------------------------------------------
@@ -21,9 +26,6 @@ BEGIN
     declare vc_description text;
     declare v_message text;
     declare vc_command_name varchar(45);
-	declare v_interval int;
-    declare v_commandid int;
-    declare v_deviceid int;
     DECLARE code CHAR(5) DEFAULT '00000';
     DECLARE msg TEXT;
     DECLARE rows INT;
@@ -50,15 +52,6 @@ BEGIN
         IF code = '00000' THEN
             -- insert was successfull
             set sp_result = 1;
-        
-			-- create a new job if interval is not 0
-			set v_interval = (SELECT `interval` from `v_command_jobs` where `idcommand_jobs` = sp_idcommand_jobs);
-        
-			IF v_interval > 0 THEN
-				set v_deviceid = (SELECT `iddevice` from `v_command_jobs` where `idcommand_jobs` = sp_idcommand_jobs);
-				set v_commandid = (SELECT `idcommands` from `v_command_jobs` where `idcommand_jobs` = sp_idcommand_jobs);
-				call sp_insert_command_jobs(@out, v_commandid, v_deviceid, v_interval, '', 'agent');
-			END IF;
         
             -- insert a log entry
             set v_message = (SELECT CONCAT(vc_command_name, '#', 'success'));
@@ -150,4 +143,8 @@ BEGIN
         
     END IF;
 
-END
+END$$
+
+DELIMITER ;
+
+

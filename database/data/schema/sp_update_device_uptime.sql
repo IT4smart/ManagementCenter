@@ -1,16 +1,16 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_state`(OUT sp_result int, IN sp_deviceid int, IN sp_state varchar(45), IN sp_user varchar(45))
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_uptime`(OUT sp_result int, IN sp_iddevice int, IN sp_name varchar(45), IN sp_value varchar(45), IN sp_jobid varchar(5), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
     --                  Copyright by IT4S GmbH 2016
     -- ------------------------------------------------------------
-    --  Created     : 11.10.2016
-    --  Last change : 11.10.2016
+    --  Created     : 28.09.2016
+    --  Last change : 28.09.2016
     --  Version     : 1.0
     --  Author      : Raphael Lekies (IT4S)
     --  Description : We insert log entries, atfer the device updated
     --
-    --  11.10.2016  : Created
+    --  28.09.2016  : Created
     --
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -28,22 +28,32 @@ BEGIN
             GET DIAGNOSTICS CONDITION 1
                 code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
         END;
-        
-	-- get device name
-    set v_device_name = (SELECT `device_name` FROM `device` WHERE `iddevice` = sp_deviceid);
-        
-	-- update device state
-    update `device` set `state` = sp_state, `modify_timestamp` = now(), `modify_user` = sp_user
-    where `iddevice` = sp_deviceid;
+      
+    -- we update state of the device
+    update device_performance_data
+    set value = sp_value, modify_timestamp = now(), modify_user = sp_user
+    where name = sp_name and device_iddevice = sp_iddevice;
+    
+    -- we update the last_check value
+    update device_performance_data
+    set value_date = now(), modify_timestamp = now(), modify_user = sp_user
+    where name = 'last_check' and device_iddevice = sp_iddevice;
+    
+    
+    set v_device_name = (SELECT device_name from device where iddevice = sp_iddevice);
+    
 
     -- check whether the insert was successful
     IF code = '00000' THEN
         -- insert was successfull
         set sp_result = 1;
         
+        -- set job done
+        call sp_update_command_jobs(@out, 'agent', sp_jobid, 'success', '');
+        
         -- now we can write a log
-        set v_message = (SELECT CONCAT(v_device_name, '#', sp_state));
-        call sp_insert_log_entry('', 61, v_message, 'success', sp_user);
+        set v_message = (SELECT CONCAT(v_device_name, '#', sp_value));
+        call sp_insert_log_entry('', 74, v_message, 'success', sp_user);
         
     else
         -- insert failed
@@ -51,11 +61,10 @@ BEGIN
         
         -- now we can write a log
         -- info for user
-        call sp_insert_log_entry('', 62, v_device_name, 'failed', sp_user);
+        call sp_insert_log_entry('', 75, v_device_name, 'failed', sp_user);
         
         -- debugging
         set v_message = (SELECT CONCAT(v_device_name, '#', code, '#', msg));
-        call sp_insert_log_entry('', 63, v_message, 'failed', sp_user);
-    end if;       
-
+        call sp_insert_log_entry('', 76, v_message, 'failed', sp_user);
+    end if;    
 END

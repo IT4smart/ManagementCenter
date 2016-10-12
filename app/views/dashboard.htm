@@ -1,1 +1,91 @@
-<p>Here we are at the dashboard</p>
+<div class="row">
+    <repeat group="{{ @devices_pdata }}" value="{{ @device }}">
+        <div class="col-md-3">
+            <check if="{{ @device.value }} == 'offline'">
+                <true>
+                    <div class="panel panel-danger">
+                        <div class="panel-heading text-center text-capitalize">{{ @device.value }}</div>
+                        <div class="panel-body text-center">
+                            <h2><strong>{{ @device.cnt_value }}</strong></h2>
+                        </div>
+                    </div>
+                </true>
+                <false>
+                    <div class="panel panel-danger">
+                        <div class="panel-heading text-center text-capitalize">{{ @offline }}</div>
+                        <div class="panel-body text-center">
+                            <h2><strong>0</strong></h2>
+                        </div>
+                    </div>
+                </false>
+            </check>
+        </div>
+        <div class="col-md-3">
+            <check if="{{ @device.value }} == 'online'">
+                <true>
+                    <div class="panel panel-success">
+                        <div class="panel-heading text-center text-capitalize">{{ @device.value }}</div>
+                        <div class="panel-body text-center">
+                            <h2><strong>{{ @device.cnt_value }}</strong></h2>
+                        </div>
+                    </div>
+                </true>
+                <false>
+                    <div class="panel panel-success">
+                        <div class="panel-heading text-center text-capitalize">{{ @online }}</div>
+                        <div class="panel-body text-center">
+                            <h2><strong>0</strong></h2>
+                        </div>
+                    </div>
+                </false>
+            </check>
+        </div>
+    </repeat>
+    <repeat group="{{ @devices }}" value="{{ @d_data }}">
+        <div class="col-md-3">
+            <check if="{{ @d_data.state }} == 'activated'">
+                <true>
+                    <div class="panel panel-info">
+                        <div class="panel-heading text-center text-capitalize">{{ @d_data.state }}</div>
+                        <div class="panel-body text-center">
+                            <check if="{{ @d_data.cnt_state == 0 }}">
+                                <true><h2><strong>0</strong></h2></true>
+                                <false><h2><strong>{{ @d_data.cnt_state }}</strong></h2></false>
+                            </check>
+                        </div>
+                    </div>
+                </true>
+            </check>
+        </div>
+        <div class="col-md-3">
+            <check if="{{ @d_data.state }} == 'pending'">
+                <true>
+                    <div class="panel panel-info">
+                        <div class="panel-heading text-center text-capitalize">{{ @d_data.state }}</div>
+                        <div class="panel-body text-center">
+                            <check if="{{ @d_data.cnt_state == 0 }}">
+                                <true><h2><strong>0</strong></h2></true>
+                                <false><h2><strong>{{ @d_data.cnt_state }}</strong></h2></false>
+                            </check>
+                        </div>
+                    </div>
+                </true>
+            </check>
+        </div>
+        <div class="col-md-3">
+            <check if="{{ @d_data.state }} == 'deactivated'">
+                <true>
+                    <div class="panel panel-info">
+                        <div class="panel-heading text-center text-capitalize">{{ @d_data.state }}</div>
+                        <div class="panel-body text-center">
+                            <check if="{{ @d_data.cnt_state == 0 }}">
+                                <true><h2><strong>0</strong></h2></true>
+                                <false><h2><strong>{{ @d_data.cnt_state }}</strong></h2></false>
+                            </check>
+                        </div>
+                    </div>
+                </true>
+            </check>
+        </div>
+    </repeat>
+</div>

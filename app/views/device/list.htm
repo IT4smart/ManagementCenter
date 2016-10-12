@@ -2,15 +2,14 @@
  <div class="col-md-3">
   <div class="list-group">
    <p>Filter by:</p>
-   <!-- <a href="{{ 'filter_list' | alias }}" class="list-group-item">All</a> -->
-   <a href="{{ @BASE.'/device/all' }}" class="list-group-item">All</a>
-   <a href="#" class="list-group-item">Registered</a>
-   <a href="#" class="list-group-item">Not Registered</a>
-   <a href="#" class="list-group-item">Pending</a>
+   <a href="{{ @BASE }}{{ 'filter_list', 'filter=all' | alias }}" class="list-group-item text-capitalize">{{ @all }}</a>
+   <a href="{{ @BASE }}{{ 'filter_list', 'filter=pending' | alias }}" class="list-group-item text-capitalize">{{ @pending}}</a>
+   <a href="{{ @BASE }}{{ 'filter_list', 'filter=activated' | alias }}" class="list-group-item text-capitalize">{{ @activated }}</a>
+   <a href="{{ @BASE }}{{ 'filter_list', 'filter=deactivated' | alias }}" class="list-group-item text-capitalize">{{ @deactivated }}</a>
   </div>
   <div class="list-group">
    <p>Groups:</p>
-   <a href="{{ 'filter_group_list', 'filter=all', 'groups=all' | alias }}" class="list-group-item">All</a>
+   <a href="{{ @BASE }}{{ 'filter_group_list', 'filter=all,groups=all' | alias }}" class="list-group-item text-capitalize">{{ @all }}</a>
    <repeat group="{{ @devicegroups }}" value="{{ @group }}">
     <a href="#" class="list-group-item">{{ trim(@group.device_group_name) }}</a>
    </repeat>
@@ -30,9 +29,9 @@
 	<thead>
 	 <tr>
 	  <th scope="col">{{ @device_name }}</th>
-	  <th scope="col">State</th>
-	  <th scope="col">IP - Address</th>
-	  <th scope="col">Action</th>
+	  <th class="text-capitalize" scope="col">{{ @state }}</th>
+	  <th scope="col">{{ @mac }}</th>
+	  <th class="text-capitalize" scope="col">{{ @action }}</th>
 	 </tr>
 	</thead>
 
@@ -41,7 +40,7 @@
 		<tr>
 		 <td><a href="{{ @BASE.'/device/detail_summary/'.@device.device_name }}">{{ trim(@device.device_name) }}</a></td>
 		 <td>{{ trim(@device.state) }}</td>
-		 <td>{{ trim(@device.ip_address) }}</td>
+		 <td>{{ trim(@device.mac_address) }}</td>
 		 <td><a href="{{ @BASE.'/device/update/'. @device.iddevice }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/device/delete/'. @device.iddevice }}"><i class="glyphicon glyphicon-trash"></i></a></td>
 		</tr>
 	 </repeat>

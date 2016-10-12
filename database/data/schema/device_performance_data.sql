@@ -1,6 +1,6 @@
 CREATE TABLE `device_performance_data` (
   `iddevice_performance_data` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'fqdn; os_version; last_boot; cpu; ram; gateway; dns; ntp;',
+  `name` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'fqdn; os_version; last_boot; cpu; ram; gateway; dns; ntp; state',
   `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `value_date` datetime DEFAULT NULL,
   `insert_timestamp` datetime NOT NULL,

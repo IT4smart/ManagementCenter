@@ -12,7 +12,7 @@ class Device extends DB\SQL\Mapper {
 	}
 
         public function add($array) {
-		$result['result'] = $this->db->exec('call sp_insert_device(@out,?,?,?,?,?,?,?,?,?)', array(1=>$array['devicename'], 2=>$array['mac'], 3=>$array['ip'], 4=>$array['serialnumber'], 5=>$array['note'], 6=>$array['devicetype'], 7=>$array['devicegroup'], 8=>$array['photo'], 9=>$array['session_user']));
+		$result['result'] = $this->db->exec('call sp_insert_device(@out,?,?,?,?,?,?,?,?)', array(1=>$array['devicename'], 2=>$array['mac'], 3=>$array['serialnumber'], 4=>$array['note'], 5=>$array['devicetype'], 6=>$array['devicegroup'], 7=>$array['photo'], 8=>$array['session_user']));
 		$result['out'] = $this->db->exec('SELECT @out');
 
 
@@ -21,7 +21,7 @@ class Device extends DB\SQL\Mapper {
 
 	public function byStatus($filter) {
 		$this->load(array('state=?',$filter));
-        	$this->copyTo('POST');
+        	return $this->query;
 	}
 
 	public function getByName($devicename) {
@@ -38,5 +38,19 @@ class Device extends DB\SQL\Mapper {
             $this->load(array('mac_address=?', $mac));
             return $this->query;
         }
+        
+        public function overviewDeviceState() {
+            $this->load(NULL,array('group' => 'state'));
+            return $this->query;
+        }
+        
+        /**
+         * 
+         * @param type $id
+         * @param type $state
+         */
+        public function setDeviceState($id, $state, $user) {
+           $result = $this->db->exec('call sp_update_device_state(@out, ?, ?, ?)', array(1=>$id, 2=>$state, 3=>$user));
+           return $result;
+        }
 }
-

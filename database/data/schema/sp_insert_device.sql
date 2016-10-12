@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_device`(OUT sp_result int, IN sp_device_name varchar(45), IN sp_mac_address varchar(45), IN sp_ip_address varchar(45), IN sp_serialnumber varchar(45), IN sp_note text, IN sp_device_type int, IN sp_device_group int, IN sp_photo varchar(255), IN sp_user varchar(45))
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_device`(OUT sp_result int, IN sp_device_name varchar(45), IN sp_mac_address varchar(45), IN sp_serialnumber varchar(45), IN sp_note text, IN sp_device_type int, IN sp_device_group int, IN sp_photo varchar(255), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -32,8 +32,8 @@ BEGIN
         END;
       
     -- insert device
-    insert into device (device_types_iddevice_types, device_name, mac_address, ip_address, serialnumber, note, device_photo, insert_timestamp, insert_user, modify_timestamp, modify_user)
-    values (sp_device_type, sp_device_name, sp_mac_address, sp_ip_address, sp_serialnumber, sp_note, sp_photo, now(), sp_user, now(), sp_user);
+    insert into device (device_types_iddevice_types, device_name, mac_address, serialnumber, note, device_photo, insert_timestamp, insert_user, modify_timestamp, modify_user)
+    values (sp_device_type, sp_device_name, sp_mac_address, sp_serialnumber, sp_note, sp_photo, now(), sp_user, now(), sp_user);
 
     -- get latest inserted id from table 'device'
     set lid = last_insert_id();
@@ -42,10 +42,6 @@ BEGIN
     insert into devices_to_device_groups (device_iddevice, device_groups_iddevice_groups, insert_timestamp, insert_user, modify_timestamp, modify_user)
     values (lid, sp_device_group, now(), sp_user, now(), sp_user);
     
-    -- insert job for getting state of the device
-    insert into command_jobs (timestamp, state, insert_timestamp, insert_user, modify_timestamp, modify_user, commands_idcommands, device_iddevice) 
-    values (now(), '', now(), sp_user, now(), sp_user, 2, lid);
-
 
     -- check whether the insert was successful
     IF code = '00000' THEN

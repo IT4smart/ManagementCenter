@@ -9,10 +9,10 @@ class Controller {
 	 * ToDo:
 	 * - add check if a user is logged in.
 	 ****************************/
-		//if($this->f3->get('SESSION.user') == null) {
-		//	$this->f3->reroute('');
-		//	exit;
-		//}
+		/*if($this->f3->get('SESSION.user') == null) {
+			$this->f3->reroute('/');
+			exit;
+		}*/
 	}
 
 	function afterroute() {

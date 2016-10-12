@@ -63,15 +63,53 @@ class DeviceController extends Controller {
 	$this->f3->set('message', $this->f3->get('PARAMS.message'));
 	$this->f3->set('message_warning', $this->f3->get('PARAMS.message_warning'));
 	$this->f3->set('message_failed', $this->f3->get('PARAMS.message_failed'));
-        $this->f3->set('page_head', 'Device Overview');
+        $this->f3->set('page_head', $this->f3->get('page_head_device_overview'));
 	$this->f3->set('view', 'device/list.htm');
 
     }
 
+    function restart() {
+        $command = new Command($this->db);
+        $job = new Job($this->db);
+        $command->getByName("Restart");
+        $result = $job->addJob($command->idcommands, $this->f3->get('PARAMS.id'), 0);
+        
+        if ($result == 1) {
+            $this->f3->reroute('/device/success/'.$this->f3->get('reroute_device_restart_success'));
+        } else {
+            $this->f3->reroute('/device/failed/'.$this->f3->get('reroute_device_restart_failed'));
+        }
+        
+    }
+    
+    /**
+     * Activate a device so there can be insert all the jobs.
+     */
+    function activate() {
+        $device = new Device($this->db);
+        $result = $device->setDeviceState($this->f3->get('PARAMS.id'), 'activated', $this->f3->get('SESSION.user'));
+        
+        if ($result == 1) {
+            $this->f3->reroute('/device/success/'.$this->f3->get('reroute_device_activate_success'));
+        } else {
+            $this->f3->reroute('/device/failed/'.$this->f3->get('reroute_device_activate_failed'));
+        }
+    }
 
     function byFilter() {
-	$device = new Device($this->db);
-	$device->byStatus($this->f3->get('PARAMS.filter'));
+        if ($this->f3->get('PARAMS.filter') == 'all') {
+            $this->f3->reroute('/device');
+        } else {
+            $device = new Device($this->db);
+            $devicegroup = new DeviceGroup($this->db);
+            $this->f3->set('devices', $device->byStatus($this->f3->get('PARAMS.filter')));
+            $this->f3->set('devicegroups', $devicegroup->all());
+            $this->f3->set('message', $this->f3->get('PARAMS.message'));
+            $this->f3->set('message_warning', $this->f3->get('PARAMS.message_warning'));
+            $this->f3->set('message_failed', $this->f3->get('PARAMS.message_failed'));
+            $this->f3->set('page_head', $this->f3->get('page_head_device_overview'));
+            $this->f3->set('view', 'device/list.htm');
+        }
     }
 
 
@@ -79,16 +117,18 @@ class DeviceController extends Controller {
 	$device = new Device($this->db);
 	$device_profile = new DeviceProfile($this->db);
 	$device_assignment = new DeviceAssignment($this->db);
+        $device_pdata = new DevicePerformanceData($this->db);
 
 	// get all information for device_log
 	$array['lang'] = substr($this->f3->get('LANGUAGE'), 0, 2);
 	$array['device_name'] = $this->f3->get('PARAMS.devicename');
 	
 	$this->f3->set('devices', $device->getByName($this->f3->get('PARAMS.devicename')));
+        $this->f3->set('device_pdata', $device_pdata->getByDeviceId($device->iddevice));
 	$this->f3->set('device_groups', $device_assignment->getByDeviceName($array['device_name']));
 	$this->f3->set('device_profiles', $device_profile->getProfilesSummaryByDeviceName($array['device_name']));
 	$this->f3->set('device_logs', $device->getDeviceLog($array));
-	$this->f3->set('page_head', 'Detailed  view of '.$this->f3->get('PARAMS.devicename'));
+	$this->f3->set('page_head', $this->f3->get('page_head_device_detail').' '.$this->f3->get('PARAMS.devicename'));
 	$this->f3->set('view', 'device/detail_summary.htm');
     }
 
