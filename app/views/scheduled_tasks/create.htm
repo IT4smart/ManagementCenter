@@ -1,0 +1,192 @@
+<script type="text/javascript">
+            // start date
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                    locale: '{{ @language }}',
+                    format: 'L'
+                });
+                    
+            });
+            
+            // end date
+            $(function () {
+                $('#datetimepicker2').datetimepicker({
+                    locale: '{{ @language }}',
+                    format: 'L'
+                });
+            });
+            
+            // execution time
+            $(function () {
+                $('#datetimepicker3').datetimepicker({
+                    locale: '{{ @language }}',
+                    format: 'LT'
+                });
+            }); 
+            
+            // link the datetime picker. so end date can't be before start date
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+                $('#datetimepicker2').datetimepicker({
+                    useCurrent: false //Important! See issue #1075
+                });
+                $("#datetimepicker1").on("dp.change", function (e) {
+                    $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                });
+                $("#datetimepicker2").on("dp.change", function (e) {
+                    $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+                });
+            });
+            
+$(document).ready(function() {
+    // check if checkbox expiration date is checked
+    if($('#inputStateEndDate').is(':checked')) {
+        $('#inputEndDate').prop('disabled', false);
+    }
+          
+    $('#inputStateEndDate').change(function() {
+        if($('#inputStateEndDate').is(':checked')) {
+            $('#inputEndDate').prop('disabled', false);
+        } else {
+            $('#inputEndDate').prop('disabled', true);
+        }
+    });
+});
+</script>
+
+<form action="{{ @BASE.'/scheduled_tasks/create' }}" method="post" class="form-horizontal">
+<div class="panel panel-default">
+    <div class="panel-heading">{{ @general }}</div>
+    <div class="panel-body">
+ <div class="form-group">
+  <label for="InputName" class="col-sm-2 control-label text-capitalize">{{ @name }}</label>
+  <div class="col-sm-8">
+   <input type="text" name="task_name" class="form-control text-capitalize" id="inputName" placeholder="{{ @name }}">
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputCommand" class="col-sm-2 control-label text-capitalize">{{ @command }}</label>
+  <div class="col-sm-8">
+   <select name="command" class="form-control">
+    <repeat group="{{ @commands }}" value="{{ @command }}">
+     <option value="{{ @command.idcommands }}">{{ trim(@command.command_name) }}</option>
+    </repeat>
+   </select>
+  </div>
+ </div>
+ <div class="form-group">
+  <label for="InputDescription" class="col-sm-2 control-label text-capitalize">{{ @description }}</label>
+  <div class="col-sm-8">
+      <textarea name="description" class="form-control text-capitalize" id="inputDescription" placeholder="{{ @description }}"></textarea>
+  </div>
+ </div>
+ <div class="form-group">
+    <label for="InputState" class="col-sm-2 control-label text-capitalize">{{ @state }}</label>
+    <div class="checkbox">
+        <div class="col-sm-8">
+            <input type="checkbox" name="state[]" value="0" id="inputState" checked>
+        </div>
+    </div>
+ </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading text-capitalize">{{ @schedule }}</div>
+    <div class="panel-body">
+ <div class="form-group">
+  <label for="InputStartDate" class="col-sm-2 control-label text-capitalize">{{ @start_date }}</label>
+  <div class="col-sm-8">
+        <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+        </div>
+  </div>
+ </div>
+ <div class="form-group">
+    <label for="InputEndDateState" class="col-sm-2 control-label text-capitalize">{{ @end_date }}</label>
+    <div class="checkbox">
+        <div class="col-sm-8">
+            <input type="checkbox" name="end_date_state[]" value="0" id="inputStateEndDate" >
+        </div>
+    </div>
+ </div>
+ <div class="form-group">
+    <label for="InputEndDate" class="col-sm-2 control-label text-capitalize"></label>
+    <div class="col-sm-8">
+        <div class='input-group date' id='datetimepicker2'>
+            <input type='text' id="inputEndDate" class="form-control" disabled="disabled"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+        </div>
+    </div>
+ </div>
+ <div class="form-group">
+    <label for="InputExecutionTime" class="col-sm-2 control-label text-capitalize">{{ @execution_time }}</label>
+    <div class="col-sm-8">
+        <div class='input-group date' id='datetimepicker3'>
+            <input type='text' id="inputExecutionTime" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                </span>
+        </div>
+    </div>
+ </div>
+</div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading text-capitalize">{{ @repeat_task }}</div>
+    <table class="table">
+        <tr>
+        <td>
+        <div class="form-group">
+            <div class="checkbox">
+                <label for="InputState" class="col-sm-2 control-label text-capitalize">
+                    <input type="checkbox" name="never[]" value="0" id="inputState" checked>{{ @never }}
+                </label>
+            </div>
+        </div>
+        </td>
+        </tr>
+        <tr>
+            <td>
+            <div class="form-group">
+            <div class="checkbox">
+                <label for="InputState" class="col-sm-2 control-label text-capitalize">
+                    <input type="checkbox" name="every[]" value="0" id="inputState" >{{ @every }}
+                </label>
+            </div>
+            </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <!-- check input field for only numeric input -->
+                        <input type="text" name="task_days" class="form-control text-capitalize" id="inputDays" placeholder="{{ @day }}">
+                    </div>
+                    <label for="InputDays" class="col-sm-2 control-label text-capitalize">{{ @day }}</label>
+                </div>
+            </td>
+            <td>
+                <div class="input-group spinner">
+                    <input type="text" class="form-control" value="0" min="0" max="24" >
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                    {{ @hours }}
+                </div>                
+            </td>
+        </tr>
+    </table>
+ </div>
+ <div class="control-group">
+  <div class="col-sm-offset-2 col-sm-10">
+   <input type="hidden" name="create" value="create" />
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+   <a href="{{ @BASE.'/user' }}" class="btn btn-default" role="button"> {{ @cancel }}</a>
+  </div>
+ </div>
+</form>

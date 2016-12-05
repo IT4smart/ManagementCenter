@@ -32,8 +32,8 @@
  <div class="col-md-2">
   <ul class="nav nav-pills nav-stacked text-center">
   <li role="presentation" class="active"><a href="{{ @BASE.'/device/restart/'.@devices[0].iddevice }}">{{ @restart_device }}</a></li>
-  <li role="presentation" class="active"><a href="{{ @BASE.'/device/shutdown' }}">{{ @shutdown_device }}</a></li>
-  <li role="presentation" class="active"><a href="{{ @BASE.'/device/refresh' }}">{{ @refresh_device }}</a></li>
+  <li role="presentation" class="active"><a href="{{ @BASE.'/device/shutdown/'.@devices[0].iddevice }}">{{ @shutdown_device }}</a></li>
+  <!-- <li role="presentation" class="active"><a href="{{ @BASE.'/device/refresh' }}">{{ @refresh_device }}</a></li> -->
   <check if="{{ @devices[0].state == 'pending' }}">
       <true>
         <li role="presentation" class="active text-capitalize"><a href="{{ @BASE.'/device/activate/'.@devices[0].iddevice }}">{{ @activate_device }}</a></li>
@@ -145,6 +145,106 @@
               <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
                   <check if="{{ @pdata.name == 'uptime' }}"> 
                       <true>{{ @pdata.value / 60 / 60 }} <span class="text-capitalize">{{ @hours }}</span></true>
+                  </check>
+              </repeat>
+          </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @kernel_version }}</th>
+        <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'kernel_version' }}"> 
+                    <true>{{ @pdata.value }}</true>
+                </check>
+            </repeat>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @architecture }}</th>
+        <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'architecture' }}"> 
+                    <true>{{ @pdata.value }}</true>
+                </check>
+            </repeat>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @cpu_family }}</th>
+        <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'cpu_family' }}"> 
+                    <true>{{ @pdata.value }}</true>
+                </check>
+            </repeat>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @cpu_speed }}</th>
+        <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'cpu_speed' }}"> 
+                    <true>{{ @pdata.value }}</true>
+                </check>
+            </repeat>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @cpu_cores }}</th>
+        <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'cpu_cores' }}"> 
+                    <true>{{ @pdata.value }}</true>
+                </check>
+            </repeat>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @memory_total }}</th>
+        <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'memory_total' }}"> 
+                    <true>{{ @pdata.value }} MB</true>
+                </check>
+            </repeat>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @memory_free }}</th>
+        <td>
+            <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                <check if="{{ @pdata.name == 'memory_free' }}"> 
+                    <true>{{ @pdata.value }} MB</true>
+                </check>
+            </repeat>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @net_speed }}</th>
+          <td>
+              <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                  <check if="{{ @pdata.name == 'net_speed' }}"> 
+                      <true>{{ @pdata.value }} Mbit/s</true>
+                  </check>
+              </repeat>
+          </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @ip }}</th>
+          <td>
+              <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                  <check if="{{ @pdata.name == 'net_ip' }}"> 
+                      <true>{{ @pdata.value }}</true>
+                  </check>
+              </repeat>
+          </td>
+      </tr>
+      <tr>
+        <th class="text-capitalize">{{ @netmask }}</th>
+          <td>
+              <repeat group="{{ @device_pdata }}" value="{{ @pdata }}">
+                  <check if="{{ @pdata.name == 'net_subnetmask' }}"> 
+                      <true>{{ @pdata.value }}</true>
                   </check>
               </repeat>
           </td>

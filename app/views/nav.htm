@@ -21,11 +21,16 @@
             <li><a href="{{ @BASE.'/group' }}">{{ @groups }}</a></li>
             <li><a href="{{ @BASE.'/device/create' }}">{{ @add_device }}</a></li>
           </ul>
-        <li><a href="#">{{ @system }}</a></li>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ @system }} <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="text-capitalize"><a href="{{ @BASE.'/system/scheduled_tasks' }}">{{ @scheduled_tasks }}</a></li>
+            </ul>
+        </li>
         <li><a href="#">{{ @reports }}</a></li>
         <li><a href="#">{{ @help }}</a></li>
         <li><a href="{{ @BASE.'/logout' }}">{{ @logout }}</a></li>
-        </li>
       </ul>
  </div>
  </div>

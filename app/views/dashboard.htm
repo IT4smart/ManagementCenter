@@ -6,18 +6,13 @@
                     <div class="panel panel-danger">
                         <div class="panel-heading text-center text-capitalize">{{ @device.value }}</div>
                         <div class="panel-body text-center">
-                            <h2><strong>{{ @device.cnt_value }}</strong></h2>
+                            <check if="{{ @device.cnt_value == 0 }}">
+                                <true><h2><strong>0</strong></h2></true>
+                                <false><h2><strong>{{ @device.cnt_value }}</strong></h2></false>
+                            </check>
                         </div>
                     </div>
                 </true>
-                <false>
-                    <div class="panel panel-danger">
-                        <div class="panel-heading text-center text-capitalize">{{ @offline }}</div>
-                        <div class="panel-body text-center">
-                            <h2><strong>0</strong></h2>
-                        </div>
-                    </div>
-                </false>
             </check>
         </div>
         <div class="col-md-3">
@@ -26,18 +21,13 @@
                     <div class="panel panel-success">
                         <div class="panel-heading text-center text-capitalize">{{ @device.value }}</div>
                         <div class="panel-body text-center">
-                            <h2><strong>{{ @device.cnt_value }}</strong></h2>
+                            <check if="{{ @device.cnt_value == 0 }}">
+                                <true><h2><strong>0</strong></h2></true>
+                                <false><h2><strong>{{ @device.cnt_value }}</strong></h2></false>
+                            </check>
                         </div>
                     </div>
                 </true>
-                <false>
-                    <div class="panel panel-success">
-                        <div class="panel-heading text-center text-capitalize">{{ @online }}</div>
-                        <div class="panel-body text-center">
-                            <h2><strong>0</strong></h2>
-                        </div>
-                    </div>
-                </false>
             </check>
         </div>
     </repeat>

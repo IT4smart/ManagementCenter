@@ -1,0 +1,30 @@
+/**
+ * Source: http://bootsnipp.com/snippets/featured/input-spinner-with-min-and-max-values
+ */
+
+.spinner input {
+  text-align: right;
+}
+
+.input-group-btn-vertical {
+  position: relative;
+  white-space: nowrap;
+  width: 2%;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.input-group-btn-vertical > .btn {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  margin-left: -1px;
+  position: relative;
+  border-radius: 0;
+}
+
+.input-group-btn-vertical > .btn:first-child {
+  border-top-right-radius: 4px;
+}

@@ -25,6 +25,11 @@ class Job extends DB\SQL\Mapper {
             return $result;
         }
         
+        public function addDeviceData($name, $value, $device_id, $id) {
+            $result = $this->db->exec('call sp_update_device_performance_data(@out, ?, ?, ?, ?, ?)', array(1=>$device_id, 2=>$name, 3=>$value, 4=>$id, 5=>'agent'));
+            return $result;
+        }
+        
         public function setDeviceUptime($time, $device_id, $id) {
             $result = $this->db->exec('call sp_update_device_uptime(@out, ?, ?, ?, ?, ?)', array(1=>$device_id, 2=>'uptime', 3=>$time, 4=>$id, 5=>'agent'));
             return $result;

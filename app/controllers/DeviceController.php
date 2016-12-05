@@ -72,7 +72,7 @@ class DeviceController extends Controller {
         $command = new Command($this->db);
         $job = new Job($this->db);
         $command->getByName("Restart");
-        $result = $job->addJob($command->idcommands, $this->f3->get('PARAMS.id'), 0);
+        $result = $job->addJob($command->idcommands, $this->f3->get('PARAMS.id'), 0, '');
         
         if ($result == 1) {
             $this->f3->reroute('/device/success/'.$this->f3->get('reroute_device_restart_success'));
@@ -80,6 +80,23 @@ class DeviceController extends Controller {
             $this->f3->reroute('/device/failed/'.$this->f3->get('reroute_device_restart_failed'));
         }
         
+    }
+    
+    /**
+     * Add for the device a job to shutdown the device
+     */
+    function shutdown() {
+        $command = new Command($this->db);
+        $job = new Job($this->db);
+        $command->getByName("Shutdown");
+
+        $result = $job->addJob($command->idcommands, $this->f3->get('PARAMS.id'), 0, '');
+        
+        if ($result == 1) {
+            $this->f3->reroute('/device/success/'.$this->f3->get('reroute_device_shutdown_success'));
+        } else {
+            $this->f3->reroute('/device/failed/'.$this->f3->get('reroute_device_shutdown_failed'));
+        }       
     }
     
     /**

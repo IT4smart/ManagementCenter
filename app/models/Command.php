@@ -14,4 +14,9 @@ class Command extends DB\SQL\Mapper {
             return $this->query;
         }
         
+        public function getByInterval($interval) {
+            $this->load(array('`interval`=?', $interval));
+            return $this->query;
+        }
+        
 }

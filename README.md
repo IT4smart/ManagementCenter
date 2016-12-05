@@ -118,6 +118,9 @@ app
 Wir kopieren nun aus dem Verzeichnis 'bootstrtap-3.3.36-dist' den Inhalt in die neue Verzeichnisstrukur
 `sudo mv * /var/www/html/verwaltungskonsole/app/`
 
+# Dependencies #
+bootstrap-datetimepicker (v4.17.43) https://github.com/Eonasdan/bootstrap-datetimepicker
+fontawesome (v4.6.3)
 
 # Dokumentation #
 Die Dokumentation findet nach dem Prinzip von Doxygen statt. 

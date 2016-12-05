@@ -41,10 +41,30 @@ class Apicontroller extends Controller {
     }
     
     /**
+     * Add device specific data as ip, mac, cpu speed, etc.
+     */
+    function device_data() {
+        $device = new Device($this->db);
+        $api = new Job($this->db);
+        
+        $obj = json_decode($this->f3->get('BODY'));
+        
+        foreach($obj as $row) {
+            $device->getByMac($row->mac);
+            $api->addDeviceData($row->name, $row->value, $device->iddevice, $row->idcommand_jobs);
+        }
+        
+        $api->setJobState($obj[0]->idcommand_jobs, "success");
+        $this->f3->set('view', 'api/default.html');
+        echo json_encode($api->cast());
+        
+    }
+    
+    /**
      * Insert or update device package data.
      * @todo add support to track upgradeable packages.
      */
-    function device_data() {
+    function device_package_data() {
         $device = new Device($this->db);
         $api = new Job($this->db);
         
@@ -94,13 +114,13 @@ class Apicontroller extends Controller {
     }
     
     /**
-     * Reboot device
+     * Set job state to 'success'.
      */
-    function device_reboot() {
+    function setDeviceJobState() {
         $api = new Job($this->db);
         $api->setJobState($this->f3->get('PARAMS.id'), 'success');
         $this->f3->set('view', 'api/default.html');
-        echo json_encode($api->cast());
+        echo json_encode($api->cast());        
     }
 }
 

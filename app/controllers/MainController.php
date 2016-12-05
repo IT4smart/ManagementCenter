@@ -21,7 +21,7 @@ class MainController extends Controller {
                 
                 $device = new Device($this->db);
                 $device->cnt_state = 'COUNT(state)';
-
+               
                 $this->f3->set('devices_pdata', $device_pdata->overviewDeviceState());
                 $this->f3->set('devices', $device->overviewDeviceState());
 		$this->f3->set('page_head', 'Dashboard');
