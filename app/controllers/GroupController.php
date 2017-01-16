@@ -185,13 +185,16 @@ class GroupController extends Controller {
 			$device_assignment = new DeviceAssignment($this->db);		
 
 			$this->f3->set('page_head', $this->f3->get('page_head_update_group_clients'));
-			$this->f3->set('devices', $device->all());
+			$this->f3->set('devices', $device->byStatus('activated'));
 			$this->f3->set('device_assignments', $device_assignment->getByGroupId($this->f3->get('PARAMS.id')));
 			$this->f3->set('view', 'group/clients.htm');
 		}
 	}
 
 	
+        /**
+         * Handle profiles 
+         */
 	function profiles() {
 		if($this->f3->get('POST.update')) {
 			// declare
@@ -201,93 +204,122 @@ class GroupController extends Controller {
 			$selected_arr = $this->f3->get('POST.profile');	
 			$array['session_user'] = $this->f3->get('SESSION.user');		
 
-			var_dump($this->f3->get('POST'));
-			// at first we get all assigned devices to the specific group.
+			//var_dump($this->f3->get('POST'));
+                        //var_dump($selected_arr);
+                        //print_r('<br>');
+                        
+                                                
+			// at first we get all assigned profiles to the specific group.
 			//echo "Search for group: ".$array['group_id']."<br>";
 			$profile_assigned = $profile_assignment->getByGroupId($array['group_id']);
-			//var_dump($device_assigned);
+			//var_dump($profile_assigned);
+                        //print_r('<br>');
+                        
+                        //print_r('Count assigned profiles: '.count($profile_assigned).'<br>');
+                        
 
 			if(($this->f3->get('POST.profile') ==! null) || (count($profile_assigned) ==! 0)) {
 
-				//echo 'Profile: '.$profile_assigned[0]['iddevice_profiles'].'<br>';				
-
-				// search profile in selected array
-				// if we can't find it here we have to delete it.
-				$deleted = 0;
-				$result_delete = 0;
-				for ($i = 0; $i < count($profile_assigned); $i++) {
-
-					// if no profile is selected we have to delete all from the group.
-					if(count($selected_arr) === 0) {
-						//echo "We have to delete all profiles from group!<br>";
-						$array['delete'] = $profile_assigned[$i]['iddevice_profiles'];
-						//echo "Profile to delete: ".$array['delete']."<br>";
-						$result_delete += $profile_assignment->delete($array);
-						$deleted++;
-					} else {
-						$delete = array_search($profile_assigned[$i]['iddevice_profiles'], $selected_arr);
-						//echo "Profile delete: ".$delete."<br>";
-
-						// delete the profile. it's no more a part of this group
-						if($delete === false) {
-							$array['delete'] = $profile_assigned[$i]['iddevice_profiles'];
-							//echo "Profile to delete: ".$array['delete']."<br>";
-							$result_delete += $profile_assignment->delete($array);
-							$deleted++;
-						}
-					}
-					
-				}
-
-				// we have to hack it here a little bit.
-				// we can't find any result in $profile_assigned with the function array_search
-				// so now we place all id's that are already assigned in an extra array.
-				$profiles_tmp = array();
-
-				for($k = 0; $k < count($profile_assigned); $k++) {
-					$profiles_tmp[$k] = $profile_assigned[$k]['iddevice_profiles'];
-				}
+				$result_added = 0;				
+                                $result_deleted = 0;
+                                $added = 0;
+                                $deleted = 0;
+                                
+                                // count user selected profiles
+                                $cnt_selected_profiles = count($selected_arr['id']);
+                                //print_r('Count selected profiles: '.$cnt_selected_profiles.'<br>');
 
 
-				// all profiles added to group wil be now added to database
-				// after hacking the original array $profile_assigned. Now it must be easier for array_search()
-				$added = 0;
-				$result_add = 0;
-				// only add something if there was something selected.
-				if(count($selected_arr) ==! 0) {
-					foreach($selected_arr as $selected) {
-						//echo $device_assigned[1]['iddevice']."<br/>";
-						//$add = array_search($selected, $devices_tmp);
-						$add = in_array($selected, $profiles_tmp);
-						//echo 'Profile to add: '.$selected.'<br>';
-						//echo 'Profile found in array: '.$add.'<br>';
-						//var_dump($device_assigned);
+                                // At first we check if a user unselected any profile that is assigned.
+                                if(count($profile_assigned) > $cnt_selected_profiles) {
+                                    // we need to delete some assigned profiles
+                                    //print_r('We delete profiles.<br>');
+                                    
+                                    // Delete all assigned profiles
+                                    if($cnt_selected_profiles == 0) {
+                                        //print_r('Delete all profiles<br>');
+                                        for($i = 0; $i < count($profile_assigned); $i++) {
+                                            $array['delete'] = $profile_assigned[$i]['iddevice_profiles'];
+                                            $result_deleted += $profile_assignment->delete($array);
+                                            $deleted++;
+                                        }
+                                    }
+                                    
+                                    // Find all profiles which are unselected
+                                    if($cnt_selected_profiles > 0) {
+                                        //print_r('We delete only some profiles<br>');
+                                        for($i = 0; $i < count($profile_assigned); $i++) {
+                                            $delete = array_search($profile_assigned[$i]['iddevice_profiles'], $selected_arr['id']);
+                                            
+                                            if($delete === false) {
+                                                //print_r("Delete profile: ".$profile_assigned[$i]['iddevice_profiles'].'<br>');
+                                                $array['delete'] = $profile_assigned[$i]['iddevice_profiles'];
+                                                $result_deleted += $profile_assignment->delete($array);
+                                                $deleted++;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // we add the selected profiles
+                                if($cnt_selected_profiles > count($profile_assigned)) {
+                                    // Check which profile is assigned
+                                    // Add all selected profiles
+                                    if(count($profile_assigned) == 0) {
+                                        //print_r('We add those profiles.<br>');
+                                        for($i = 0; $i < $cnt_selected_profiles; $i++) {
+                                            $array['add'] = $selected_arr['id'][$i];
+                                            $array['order'] = $selected_arr['order'][$i];
+                                            //var_dump($array);
+                                            //print_r('<br>');
+                                            $result_added += $profile_assignment->add($array);
+                                            $added++;
+                                        }
+                                    }
+                                    
+                                    // Add only the selected profiles
+                                    if(count($profile_assigned) > 0) {
+                                        //print_r('We are add some profiles<br>');
+                                        for($i = 0; $i < $cnt_selected_profiles; $i++) {
+                                            $add = array_search($selected_arr['id'][$i], array_column($profile_assigned, 'iddevice_profiles'));
+                                            
+                                            if($add === false) {
+                                                //print_r("Profile to add: ".$selected_arr['id'][$i].'<br>');
+                                                $array['add'] = $selected_arr['id'][$i];
+                                                $array['order'] = $selected_arr['order'][$i];
+                                                $result_added += $profile_assignment->add($array);
+                                                $added++;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // At least we check if all went right with adding or deleting the profiles from the group.
+                                if(($result_added == $added) && ($result_deleted == $deleted) && (($result_added > 0 ) || ($result_deleted > 0))) {
+                                    //print_r("Result add: ".$result_added."<br>");
+                                    //print_r("Added: ".$added."<br>");
+                                    //print_r("Result delete: ".$result_deleted."<br>");
+                                    //print_r("Deleted: ".$deleted."<br>");
+                                    //print_r('all right :)');
 
-						// add device to group
-						if($add == false) {
-							$array['add'] = $selected;
-							//var_dump($array);
-							$result_add += $profile_assignment->add($array);
-							$added++;
-						}
-					}
-				}
 
-				if(($result_add == $added) && ($result_delete == $deleted) && (($result_add > 0 ) || ($result_delete > 0))) {
-					//echo "Result add: ".$result_add."<br>";
-					//echo "Added: ".$added."<br>";
-					//echo "Result delete: ".$result_delete."<br>";
-					//echo "Deleted: ".$deleted."<br>";
-
-
-					$this->f3->reroute('/group/success/'.$this->f3->get('reroute_profiles_success'));
+                                    $this->f3->reroute('/group/success/'.$this->f3->get('reroute_profiles_success'));
 				} else {
-					$this->f3->reroute('/group/failed/'.$this->f3->get('reroute_profiles_failed'));
+                                    //print_r("Result add: ".$result_added."<br>");
+                                    //print_r("Added: ".$added."<br>");
+                                    //print_r("Result delete: ".$result_deleted."<br>");
+                                    //print_r("Deleted: ".$deleted."<br>");
+                                    //print_r("Something went wrong to add or delete some profiles");
+					
+                                    $this->f3->reroute('/group/failed/'.$this->f3->get('reroute_profiles_failed'));
 				}
-
+                                
+                                
 			} else {
 				$this->f3->reroute('/group/warning/'.$this->f3->get('reroute_profiles_warning'));
 			}
+                        
+                         
 			
 		} else {
 			$profile = new DeviceProfile($this->db);

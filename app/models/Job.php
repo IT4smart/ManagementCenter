@@ -68,7 +68,7 @@ class Job extends DB\SQL\Mapper {
          * @param type $mac
          */
         public function getRegisterStateByMac($mac) {
-            $result = $this->db->exec("SELECT * FROM v_device_registering_jobs where `mac` = ? and `state` not in ('done')",$mac);
+            $result = $this->db->exec("SELECT * FROM v_device_registering_jobs where `mac` = ? and `state` not in ('done') limit 1",$mac);
             return $result;
         } 
         

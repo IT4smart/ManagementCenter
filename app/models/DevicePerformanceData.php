@@ -17,8 +17,8 @@ class DevicePerformanceData extends DB\SQL\Mapper {
 	}
         
         public function overviewDeviceState() {
-            $this->load(array('name=?', 'state'), array('group' => 'value'));
-            return $this->query;
+            $result = $this->db->exec('select * from v_dashboard_device_performance_data_state');
+            return $result;
         }
 }
 

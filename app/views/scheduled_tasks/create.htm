@@ -37,13 +37,69 @@
                     $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
                 });
             });
-            
+
+    
 $(document).ready(function() {
+    
     // check if checkbox expiration date is checked
     if($('#inputStateEndDate').is(':checked')) {
         $('#inputEndDate').prop('disabled', false);
     }
-          
+    
+    // check if radiobutton 'never' is checked.
+    if($('#inputState1').is(':checked')) {
+        $('#inputNoOfRepeats').prop('disabled', true);
+        $('select[name="type_of_repeat"]').prop('disabled', true);
+        $('label[for="weekdays_monday"]').hide();
+        $('label[for="weekdays_tuesday"]').hide();
+        $('label[for="weekdays_wednesday"]').hide();
+        $('label[for="weekdays_thursday"]').hide();
+        $('label[for="weekdays_friday"]').hide();
+        $('label[for="weekdays_saturday"]').hide();
+        $('label[for="weekdays_sunday"]').hide();
+    }
+    
+    // The user clicked on radiobutton 'every'
+    $('input[name="optionsRadios"]:radio').change(function() {
+        if ($('#inputState2').is(':checked')) {
+            $('#inputNoOfRepeats').prop('disabled', false);
+            $('select[name="type_of_repeat"]').prop('disabled', false);
+        }
+        
+        if($('#inputState1').is(':checked')) {
+            $('#inputNoOfRepeats').prop('disabled', true);
+            $('select[name="type_of_repeat"]').prop('disabled', true);
+            $('label[for="weekdays_monday"]').hide();
+            $('label[for="weekdays_tuesday"]').hide();
+            $('label[for="weekdays_wednesday"]').hide();
+            $('label[for="weekdays_thursday"]').hide();
+            $('label[for="weekdays_friday"]').hide();
+            $('label[for="weekdays_saturday"]').hide();
+            $('label[for="weekdays_sunday"]').hide();
+        }
+    });
+    
+    // Make the weekdays visible if the user select option 'day'
+    $('select[name="type_of_repeat"]').change(function() {
+       if($('select[name="type_of_repeat"]').val() == "week") {
+           $('label[for="weekdays_monday"]').show();
+           $('label[for="weekdays_tuesday"]').show();
+           $('label[for="weekdays_wednesday"]').show();
+           $('label[for="weekdays_thursday"]').show();
+           $('label[for="weekdays_friday"]').show();
+           $('label[for="weekdays_saturday"]').show();
+           $('label[for="weekdays_sunday"]').show();
+       } else {
+           $('label[for="weekdays_monday"]').hide();
+           $('label[for="weekdays_tuesday"]').hide();
+           $('label[for="weekdays_wednesday"]').hide();
+           $('label[for="weekdays_thursday"]').hide();
+           $('label[for="weekdays_friday"]').hide();
+           $('label[for="weekdays_saturday"]').hide();
+           $('label[for="weekdays_sunday"]').hide(); 
+       }
+    });
+        
     $('#inputStateEndDate').change(function() {
         if($('#inputStateEndDate').is(':checked')) {
             $('#inputEndDate').prop('disabled', false);
@@ -54,17 +110,17 @@ $(document).ready(function() {
 });
 </script>
 
-<form action="{{ @BASE.'/scheduled_tasks/create' }}" method="post" class="form-horizontal">
+<form action="{{ @BASE.'/system/scheduled_tasks/create' }}" method="post" class="form-horizontal">
 <div class="panel panel-default">
     <div class="panel-heading">{{ @general }}</div>
     <div class="panel-body">
- <div class="form-group">
+ <div id="check-1" class="form-group">
   <label for="InputName" class="col-sm-2 control-label text-capitalize">{{ @name }}</label>
   <div class="col-sm-8">
    <input type="text" name="task_name" class="form-control text-capitalize" id="inputName" placeholder="{{ @name }}">
   </div>
  </div>
- <div class="form-group">
+ <div id="check-2" class="form-group">
   <label for="InputCommand" class="col-sm-2 control-label text-capitalize">{{ @command }}</label>
   <div class="col-sm-8">
    <select name="command" class="form-control">
@@ -74,13 +130,13 @@ $(document).ready(function() {
    </select>
   </div>
  </div>
- <div class="form-group">
+ <div id="check-3" class="form-group">
   <label for="InputDescription" class="col-sm-2 control-label text-capitalize">{{ @description }}</label>
   <div class="col-sm-8">
-      <textarea name="description" class="form-control text-capitalize" id="inputDescription" placeholder="{{ @description }}"></textarea>
+      <textarea name="description" class="form-control" id="inputDescription" placeholder="{{ @description }}"></textarea>
   </div>
  </div>
- <div class="form-group">
+ <div id="check4" class="form-group">
     <label for="InputState" class="col-sm-2 control-label text-capitalize">{{ @state }}</label>
     <div class="checkbox">
         <div class="col-sm-8">
@@ -93,18 +149,18 @@ $(document).ready(function() {
 <div class="panel panel-default">
     <div class="panel-heading text-capitalize">{{ @schedule }}</div>
     <div class="panel-body">
- <div class="form-group">
+ <div id="check-5" class="form-group">
   <label for="InputStartDate" class="col-sm-2 control-label text-capitalize">{{ @start_date }}</label>
   <div class="col-sm-8">
         <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" />
+            <input type='text' class="form-control" name="start_date"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
         </div>
   </div>
  </div>
- <div class="form-group">
+ <div id="check-6" class="form-group">
     <label for="InputEndDateState" class="col-sm-2 control-label text-capitalize">{{ @end_date }}</label>
     <div class="checkbox">
         <div class="col-sm-8">
@@ -112,22 +168,22 @@ $(document).ready(function() {
         </div>
     </div>
  </div>
- <div class="form-group">
+ <div id="check-7" class="form-group">
     <label for="InputEndDate" class="col-sm-2 control-label text-capitalize"></label>
     <div class="col-sm-8">
         <div class='input-group date' id='datetimepicker2'>
-            <input type='text' id="inputEndDate" class="form-control" disabled="disabled"/>
+            <input type='text' id="inputEndDate" class="form-control" name="end_date" disabled="disabled"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
         </div>
     </div>
  </div>
- <div class="form-group">
+ <div id="check-8" class="form-group">
     <label for="InputExecutionTime" class="col-sm-2 control-label text-capitalize">{{ @execution_time }}</label>
     <div class="col-sm-8">
         <div class='input-group date' id='datetimepicker3'>
-            <input type='text' id="inputExecutionTime" class="form-control" />
+            <input type='text' id="inputExecutionTime" name="execution_time" class="form-control" />
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-time"></span>
                 </span>
@@ -139,54 +195,101 @@ $(document).ready(function() {
 <div class="panel panel-default">
     <div class="panel-heading text-capitalize">{{ @repeat_task }}</div>
     <table class="table">
+        <div id="check-9" class="form-group">
         <tr>
-        <td>
-        <div class="form-group">
-            <div class="checkbox">
-                <label for="InputState" class="col-sm-2 control-label text-capitalize">
-                    <input type="checkbox" name="never[]" value="0" id="inputState" checked>{{ @never }}
-                </label>
-            </div>
-        </div>
-        </td>
+            <td>
+                <div class="radio">
+                    <label for="InputState1" class="col-sm-2 control-label text-capitalize">
+                        <input type="radio" name="optionsRadios" value="never" id="inputState1" checked>{{ @never }}
+                    </label>
+                </div>
+            </td>
         </tr>
         <tr>
             <td>
-            <div class="form-group">
-            <div class="checkbox">
-                <label for="InputState" class="col-sm-2 control-label text-capitalize">
-                    <input type="checkbox" name="every[]" value="0" id="inputState" >{{ @every }}
-                </label>
-            </div>
-            </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    <div class="col-sm-8">
-                        <!-- check input field for only numeric input -->
-                        <input type="text" name="task_days" class="form-control text-capitalize" id="inputDays" placeholder="{{ @day }}">
-                    </div>
-                    <label for="InputDays" class="col-sm-2 control-label text-capitalize">{{ @day }}</label>
+                <div class="radio">
+                    <label for="InputState2" class="col-sm-2 control-label text-capitalize">
+                        <input type="radio" name="optionsRadios" value="every" id="inputState2">{{ @every }}
+                    </label>
                 </div>
             </td>
             <td>
-                <div class="input-group spinner">
-                    <input type="text" class="form-control" value="0" min="0" max="24" >
-                    <div class="input-group-btn-vertical">
-                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                <div id="check-10" class="form-group">
+                    <div class="col-sm-8">
+                        <input type="text" name="task_repeat_times" class="form-control text-capitalize" id="inputNoOfRepeats" placeholder="{{ @number }}">
                     </div>
-                    {{ @hours }}
-                </div>                
+                </div>
+            </td>
+            <td>
+                <div id="check-11" class="form-group">
+                <div class="col-sm-8">
+                    <select name="type_of_repeat" class="form-control">
+                            <option class="text-capitalize" value="minute">{{ @minute }}</option>
+                            <option class="text-capitalize" value="hour">{{ @hour }}</option>
+                            <option class="text-capitalize" value="day">{{ @day }}</option>
+                            <option class="text-capitalize" value="week">{{ @week }}</option>
+                            <option class="text-capitalize" value="month">{{ @month }}</option>
+                            <option class="text-capitalize" value="year">{{ @year }}</option>
+                    </select
+                </div>
+                </div>
+            </td>
+            <td>
+                <ul class="list-group">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label for="weekdays_monday" class="col-sm-2 control-label text-capitalize">
+                                <input type="checkbox" id="weekdays_monday" name="weekdays[]" value="monday">{{ @monday }}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="weekdays_tuesday" class="col-sm-2 control-label text-capitalize">
+                                <input type="checkbox" id="weekdays_tuesday" name="weekdays[]" value="tuesday">{{ @tuesday }}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="weekdays_wednesday" class="col-sm-2 control-label text-capitalize">
+                                <input type="checkbox" id="weekdays_wednesday" name="weekdays[]" value="wednesday">{{ @wednesday }}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="weekdays_thursday" class="col-sm-2 control-label text-capitalize">
+                                <input type="checkbox" id="weekdays_thursday" name="weekdays[]" value="thursday">{{ @thursday }}
+                            </label>
+                        </div>
+                    </div>
+                </ul>
+            </td>
+            <td>
+                <ul class="list-group">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label for="weekdays_friday" class="col-sm-2 control-label text-capitalize">
+                                <input type="checkbox" id="weekdays_monday" name="weekdays[]" value="friday">{{ @friday }}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="weekdays_saturday" class="col-sm-2 control-label text-capitalize">
+                                <input type="checkbox" id="weekdays_tuesday" name="weekdays[]" value="saturday">{{ @saturday }}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="weekdays_sunday" class="col-sm-2 control-label text-capitalize">
+                                <input type="checkbox" id="weekdays_wednesday" name="weekdays[]" value="sunday">{{ @sunday }}
+                            </label>
+                        </div>
+                    </div>
+                </ul>
             </td>
         </tr>
+        </div>
     </table>
  </div>
  <div class="control-group">
   <div class="col-sm-offset-2 col-sm-10">
    <input type="hidden" name="create" value="create" />
    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
-   <a href="{{ @BASE.'/user' }}" class="btn btn-default" role="button"> {{ @cancel }}</a>
+   <a href="{{ @BASE.'/system/scheduled_tasks' }}" class="btn btn-default" role="button"> {{ @cancel }}</a>
   </div>
  </div>
 </form>

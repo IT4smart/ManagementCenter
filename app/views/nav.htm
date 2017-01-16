@@ -11,24 +11,29 @@
  </div>	
  <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="{{ @BASE.'/dashboard' }}">Home</a></li>
-        <li><a href="{{ @BASE.'/user' }}">{{ @user_admin }}</a></li>
+        <li class="text-capitalize"><a href="{{ @BASE.'/dashboard' }}">{{ @dashboard }}</a></li>
+        <li class="text-capitalize"><a href="{{ @BASE.'/user' }}">{{ @user_admin }}</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ThinClient <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ @thinclient }} <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="{{ @BASE.'/device' }}">{{ @devices }}</a></li>
-            <li><a href="{{ @BASE.'/profile' }}">{{ @profiles }}</a></li>
-            <li><a href="{{ @BASE.'/group' }}">{{ @groups }}</a></li>
-            <li><a href="{{ @BASE.'/device/create' }}">{{ @add_device }}</a></li>
+            <li class="text-capitalize"><a href="{{ @BASE.'/device' }}">{{ @devices }}</a></li>
+            <li class="text-capitalize"><a href="{{ @BASE.'/profile' }}">{{ @profiles }}</a></li>
+            <li class="text-capitalize"><a href="{{ @BASE.'/group' }}">{{ @groups }}</a></li>
+            <!-- <li class="text-capitalize"><a href="{{ @BASE.'/device/create' }}">{{ @add_device }}</a></li> -->
           </ul>
         </li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ @system }} <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle text-capitalize" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ @system }} <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li class="text-capitalize"><a href="{{ @BASE.'/system/scheduled_tasks' }}">{{ @scheduled_tasks }}</a></li>
             </ul>
         </li>
-        <li><a href="#">{{ @reports }}</a></li>
+        <li class="dropdown" >
+            <a href="#" class="dropdown-toggle text-capitalize" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ @reports }} <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="text-capitalize"><a href="{{ @BASE.'/reports/overview-jobs' }}">{{ @overview_jobs }}</a></li>
+            </ul>
+        </li>
         <li><a href="#">{{ @help }}</a></li>
         <li><a href="{{ @BASE.'/logout' }}">{{ @logout }}</a></li>
       </ul>

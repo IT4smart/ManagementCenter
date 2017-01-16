@@ -17,7 +17,7 @@ class DeviceProfileAssignment extends DB\SQL\Mapper {
 	}
 
 	public function add($array) {
-		$result = $this->db->exec('call sp_insert_device_profiles_to_device_groups(@out,?,?,?,?)', array(1=>$array['add'], 2=>$array['group_id'], 3=>1, 4=>$array['session_user']));
+		$result = $this->db->exec('call sp_insert_device_profiles_to_device_groups(@out,?,?,?,?)', array(1=>$array['add'], 2=>$array['group_id'], 3=>$array['order'], 4=>$array['session_user']));
 		return $result;
 	}
 

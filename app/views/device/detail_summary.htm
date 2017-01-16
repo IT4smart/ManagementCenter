@@ -31,8 +31,12 @@
  </div>
  <div class="col-md-2">
   <ul class="nav nav-pills nav-stacked text-center">
-  <li role="presentation" class="active"><a href="{{ @BASE.'/device/restart/'.@devices[0].iddevice }}">{{ @restart_device }}</a></li>
-  <li role="presentation" class="active"><a href="{{ @BASE.'/device/shutdown/'.@devices[0].iddevice }}">{{ @shutdown_device }}</a></li>
+  <check if="{{ @devices[0].state == 'activated' }}">
+    <true>
+        <li role="presentation" class="active"><a href="{{ @BASE.'/device/restart/'.@devices[0].iddevice }}">{{ @restart_device }}</a></li>
+        <li role="presentation" class="active"><a href="{{ @BASE.'/device/shutdown/'.@devices[0].iddevice }}">{{ @shutdown_device }}</a></li>
+    </true>
+  </check>
   <!-- <li role="presentation" class="active"><a href="{{ @BASE.'/device/refresh' }}">{{ @refresh_device }}</a></li> -->
   <check if="{{ @devices[0].state == 'pending' }}">
       <true>

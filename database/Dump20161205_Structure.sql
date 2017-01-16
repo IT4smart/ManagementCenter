@@ -40,7 +40,7 @@ CREATE TABLE `command_jobs` (
   KEY `fk_command_jobs_device1_idx` (`device_iddevice`),
   CONSTRAINT `fk_command_jobs_commands1` FOREIGN KEY (`commands_idcommands`) REFERENCES `commands` (`idcommands`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_command_jobs_device1` FOREIGN KEY (`device_iddevice`) REFERENCES `device` (`iddevice`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=457 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='if status == failed then we increase timestamp 15 minutes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='if status == failed then we increase timestamp 15 minutes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -89,7 +89,7 @@ CREATE TABLE `commands` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idcommands`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='different commands';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='different commands';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -159,7 +159,7 @@ CREATE TABLE `device` (
   KEY `idx_device_name` (`device_name`),
   KEY `fk_device_device_types1` (`device_types_iddevice_types`),
   CONSTRAINT `fk_device_device_types1` FOREIGN KEY (`device_types_iddevice_types`) REFERENCES `device_types` (`iddevice_types`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -243,7 +243,7 @@ CREATE TABLE `device_groups` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`iddevice_groups`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,7 +266,7 @@ CREATE TABLE `device_packages` (
   PRIMARY KEY (`iddevice_packages`),
   KEY `fk_device_packages_device1_idx` (`device_iddevice`),
   CONSTRAINT `fk_device_packages_device1` FOREIGN KEY (`device_iddevice`) REFERENCES `device` (`iddevice`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3820 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -289,7 +289,7 @@ CREATE TABLE `device_performance_data` (
   PRIMARY KEY (`iddevice_performance_data`),
   KEY `fk_device_performance_data_device1` (`device_iddevice`),
   CONSTRAINT `fk_device_performance_data_device1` FOREIGN KEY (`device_iddevice`) REFERENCES `device` (`iddevice`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='we can collacte all data from device frequently';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='we can collacte all data from device frequently';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,7 +315,7 @@ CREATE TABLE `device_profile_settings` (
   KEY `idx_setting_categorie_name` (`setting_categorie_name`),
   KEY `idx_setting_name` (`setting_name`),
   CONSTRAINT `fk_device_profile_settings_device_profiles1` FOREIGN KEY (`device_profiles_iddevice_profiles`) REFERENCES `device_profiles` (`iddevice_profiles`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -335,7 +335,7 @@ CREATE TABLE `device_profiles` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`iddevice_profiles`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -359,7 +359,7 @@ CREATE TABLE `device_profiles_to_device_groups` (
   KEY `fk_device_profiles_to_device_groups_device_groups1` (`device_groups_iddevice_groups`),
   CONSTRAINT `fk_device_profiles_to_device_groups_device_groups1` FOREIGN KEY (`device_groups_iddevice_groups`) REFERENCES `device_groups` (`iddevice_groups`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_device_profiles_to_device_groups_device_profiles1` FOREIGN KEY (`device_profiles_iddevice_profiles`) REFERENCES `device_profiles` (`iddevice_profiles`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,7 +382,7 @@ CREATE TABLE `device_registering_jobs` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`iddevice_registering_jobs`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -438,7 +438,7 @@ CREATE TABLE `device_settings` (
   PRIMARY KEY (`iddevice_settings`),
   KEY `fk_device_settings_messages1` (`messages_idmessages`),
   CONSTRAINT `fk_device_settings_messages1` FOREIGN KEY (`messages_idmessages`) REFERENCES `messages` (`idmessages`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='here we store all settings which are pushed to the thinclien';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='here we store all settings which are pushed to the thinclient';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -458,7 +458,7 @@ CREATE TABLE `device_types` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`iddevice_types`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Our different products';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Our different products';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -481,7 +481,7 @@ CREATE TABLE `devices_to_device_groups` (
   KEY `fk_devices_to_device_groups_device_groups1` (`device_groups_iddevice_groups`),
   CONSTRAINT `fk_devices_to_device_groups_device1` FOREIGN KEY (`device_iddevice`) REFERENCES `device` (`iddevice`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_devices_to_device_groups_device_groups1` FOREIGN KEY (`device_groups_iddevice_groups`) REFERENCES `device_groups` (`iddevice_groups`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -523,7 +523,7 @@ CREATE TABLE `logs` (
   KEY `fk_logs_messages1` (`messages_idmessages`),
   KEY `idx_logs_messages_idmessages` (`messages_idmessages`),
   CONSTRAINT `fk_logs_messages1` FOREIGN KEY (`messages_idmessages`) REFERENCES `messages` (`idmessages`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22606 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Logging all actions';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Logging all actions';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -541,7 +541,7 @@ CREATE TABLE `messages` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idmessages`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -618,7 +618,7 @@ CREATE TABLE `translations` (
   KEY `fk_translations_messages1` (`messages_idmessages`),
   CONSTRAINT `fk_translations_locales1` FOREIGN KEY (`locales_idlocales`) REFERENCES `locales` (`idlocales`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_translations_messages1` FOREIGN KEY (`messages_idmessages`) REFERENCES `messages` (`idmessages`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -637,7 +637,7 @@ CREATE TABLE `user_rights` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`iduser_rights`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -680,7 +680,7 @@ CREATE TABLE `usergroups` (
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idusergroups`),
   KEY `idx_user` (`insert_user`,`modify_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -704,7 +704,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`idusers`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `idx_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -727,7 +727,7 @@ CREATE TABLE `users_to_usergroups` (
   KEY `fk_users_to_usergroups_users1` (`users_idusers`),
   CONSTRAINT `fk_users_to_usergroups_usergroups1` FOREIGN KEY (`usergroups_idusergroups`) REFERENCES `usergroups` (`idusergroups`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_to_usergroups_users1` FOREIGN KEY (`users_idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

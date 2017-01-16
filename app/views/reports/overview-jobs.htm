@@ -1,0 +1,78 @@
+<div class="row">
+ <div class="col-md-3">
+  <div class="list-group">
+   <p>{{ @state }}</p>
+   <a href="{{ @BASE.'/reports/overview-jobs' }}" class="list-group-item">{{ @all }}</a>
+   <repeat group="{{ @report_states }}" value="{{ @oj2 }}">
+       <check if="{{ @oj2.state }} == 'success'">
+        <true>
+            <a href="{{ @BASE.'/reports/overview-jobs/state/'. @oj2.state }}" class="list-group-item text-capitalize">{{ @success }}</a>
+        </true>
+       </check>
+       <check if="{{ @oj2.state }} == 'pending'">
+        <true>
+            <a href="{{ @BASE.'/reports/overview-jobs/state/'. @oj2.state }}" class="list-group-item text-capitalize">{{ @pending }}</a>
+        </true>
+       </check>
+       <check if="{{ @oj2.state }} == 'error'">
+        <true>
+            <a href="{{ @BASE.'/reports/overview-jobs/state/'. @oj2.state }}" class="list-group-item text-capitalize">{{ @error }}</a>
+        </true>
+       </check>
+       <check if="{{ @oj2.state }} == ''">
+        <true>
+            <a href="{{ @BASE.'/reports/overview-jobs/state/open' }}" class="list-group-item text-capitalize">{{ @open }}</a>
+        </true>
+       </check>
+   </repeat>
+  </div>
+ </div>
+ <div class="col-md-9">
+  <table class="table table-hover table-bordered">
+	<thead>
+	 <tr>
+	  <th class="text-capitalize" scope="col">{{ @job_id }}</th>
+	  <th class="text-capitalize" scope="col">{{ @timestamp }}</th>
+	  <th class="text-capitalize" scope="col">{{ @state }}</th>
+	  <th class="text-capitalize" scope="col">{{ @jobname }}</th>
+          <th class="text-capitalize" scope="col">{{ @device_name }}</th>
+	 </tr>
+	</thead>
+
+	<tbody>
+	 <repeat group="{{ @report_oj.subset }}" value="{{ @oj }}">
+		<tr>
+		 <td>{{ trim(@oj.idcommand_jobs) }}</a></td>
+		 <td>{{ @_dateformat,strtotime(@oj.timestamp) | format }}</a></td>
+		 <td>
+                    <check if="{{ @oj.state }} == 'success'">
+                        <true>
+                            <span class="text-capitalize">{{ @success }}</span>
+                        </true>
+                    </check>
+                    <check if="{{ @oj.state }} == 'pending'">
+                        <true>
+                            <span class="text-capitalize">{{ @pending }}</span>
+                        </true>
+                    </check>
+                    <check if="{{ @oj.state }} == 'error'">
+                        <true>
+                            <span class="text-capitalize">{{ @error }}</span>
+                        </true>
+                    </check>
+                    <check if="{{ @oj.state }} == ''">
+                        <true>
+                            <span class="text-capitalize">{{ @open }}</span>
+                        </true>
+                    </check>
+                 </td>
+		 <td>{{ trim(@oj.command_name) }}</td>
+                 <td>{{ trim(@oj.device_name) }}</td>
+		</tr>
+	 </repeat>
+	</tbody>
+  </table>
+  {{ @pagebrowser | raw }}
+ </div>
+</div>
+

@@ -1,31 +1,144 @@
 <script type="text/javascript">
+    <!-- Check if the input filed for order is not empty -->
+    function validateInput(e) {
+        var $obj = e.data.obj;
+        if(!$obj.is('disabled')) {
+            $id = $obj.attr('id');
+            $profile_id = $id.substr($id.indexOf('-') + 1);
+            var strNum2 = 'inputOrderCollapsible-' + $profile_id;
+            var strNum = 'order-check-' + $profile_id;
+            //console.log($obj.val());
+            //console.log($profile_id);
+            if($.trim($obj.val()) == '') {           
+               $('#' + strNum).addClass('has-error');
+               $('#' + strNum2).collapse("show");
+               //console.log('Error');
+            }
+            
+            if($.trim($obj.val()) != '') {
+                $("#" + strNum).removeClass("has-error").addClass("has-success");
+                $('#' + strNum2).collapse("hide");
+                $('#save-1').prop('disabled', false);
+                //console.log('Success');
+            }
+
+        }    
+        
+    }
+    
 $(document).ready(function() {
        <repeat group="{{ @profile_assignments }}" value="{{ @profile_assignment }}">
 	$('#checkbox_profile_{{ @profile_assignment.iddevice_profiles }}').prop("checked", true);
+        $('#order-{{ @profile_assignment.iddevice_profiles }}').val({{ @profile_assignment.order }});        
        </repeat>
+       
+       var cnt_profiles = 0;
+       var cnt_selected_profiles = 0;
+       var cnt_current_selected_profiles = 0;
+       
+       <repeat group="{{ @profiles }}" value="{{ @profile }}">
+        $('#order-{{ @profile.iddevice_profiles }}').bind('keyup', { obj:$('#order-{{ @profile.iddevice_profiles }}') }, validateInput);
+        $('#inputOrderCollapsible-{{ @profile.iddevice_profiles }}').collapse('hide');
+            
+        <!-- Check if a profile is not selected and disable the input field -->
+        if(!$('#checkbox_profile_{{ @profile.iddevice_profiles }}').is(':checked')) {
+            $('#order-{{ @profile.iddevice_profiles }}').prop('disabled', true);
+            cnt_selected_profiles++;
+        }
+        
+        <!-- If the user check or uncheck a checkbox we enable/disable the input field -->
+        $('#checkbox_profile_{{ @profile.iddevice_profiles }}').change(function() {
+            if(!$('#checkbox_profile_{{ @profile.iddevice_profiles }}').is(':checked')) {
+                $('#order-{{ @profile.iddevice_profiles }}').prop('disabled', true);
+                $('#inputOrderCollapsible-{{ @profile.iddevice_profiles }}').collapse('hide');
+                cnt_current_selected_profiles--;
+            } else {
+                $('#order-{{ @profile.iddevice_profiles }}').prop('disabled', false);
+                cnt_current_selected_profiles++;09
+                if($.trim($('#order-{{ @profile.iddevice_profiles }}').val()) == '') {
+                    //console.log('Enable profile without an order.');
+                    $('#inputOrderCollapsible-{{ @profile.iddevice_profiles }}').collapse('show');
+                } else {
+                    //console.log('Enable profile with an order.');
+                    //console.log($.trim($('#order-{{ @profile.iddevice_profiles }}').val()));
+                    $('#inputOrderCollapsible-{{ @profile.iddevice_profiles }}').collapse();
+                }
+            }
+            <!-- Debugging 
+            console.log('Count profiles: ' + cnt_profiles);
+            console.log('Count selected profiles: ' + cnt_selected_profiles);
+            console.log('Current selected profiles: ' + cnt_current_selected_profiles);
+            -->
+            
+            if(cnt_selected_profiles == cnt_current_selected_profiles) {
+                $('#save-1').prop('disabled', true);
+            }
+            
+        });
+        cnt_profiles++;
+       </repeat>
+       cnt_current_selected_profiles = cnt_selected_profiles;
+       
+       if(cnt_selected_profiles != cnt_current_selected_profiles) {
+            $('#save-1').prop('disabled', false);
+       } else {
+            $('#save-1').prop('disabled', true);
+       }
+       
+       <!-- Debugging
+       console.log('Count profiles: ' + cnt_profiles);
+       console.log('Count selected profiles: ' + cnt_selected_profiles);
+       console.log('Current selected profiles: ' + cnt_current_selected_profiles);
+       -->
+       
+       
 });
 </script>
 <div class="row">
  <div class="col-md-2">
   <include href="group/group_nav.htm" />
  </div>
- <div class="col-md-offset-4 col-md-6">
+ <div class="col-md-offset-2 col-md-8">
   <form action="{{ @BASE.'/group/profiles' }}" method="post" class="form-horizontal">
-   <repeat group="{{ @profiles }}" value="{{ @profile }}">
-    <div class="form-group">
-     <div class="checkbox">
-      <label>
-       <input type="checkbox" id="checkbox_profile_{{ @profile.iddevice_profiles }}" name="profile[]" value="{{ @profile.iddevice_profiles }}">
-       {{ @profile.profile_name }}
-      </label>
-     </div>
-    </div>
-   </repeat>
+      <table class="table">
+          <thead>
+              <tr>
+                  <td class="text-capitalize" scope="col">{{ @profile_name }}</td>
+                  <td class="text-capitalize" scope="col">{{ @order }}</td>
+              </tr>
+          </thead>
+          <tbody>
+            <repeat group="{{ @profiles }}" value="{{ @profile }}">
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="checkbox_profile_{{ @profile.iddevice_profiles }}" name="profile[id][]" value="{{ @profile.iddevice_profiles }}">
+                                    {{ @profile.profile_name }}
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="order-check-{{ @profile.iddevice_profiles }}" class="form-group">
+                            <div class="col-sm-8">
+                                <input type="text" name="profile[order][]" class="form-control text-capitalize" id="order-{{ @profile.iddevice_profiles }}" placeholder="{{ @order_number }}">
+                                <div id="inputOrderCollapsible-{{ @profile.iddevice_profiles }}">
+                                    <span id="helpBlock" class="help-block">{{ @empty_field }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </repeat>
+        </tbody>
+      </table>
  <div class="control-group">
   <div class="col-sm-offset-7 col-sm-3">
    <input type="hidden" name="update" value="update" />
    <input type="hidden" name="group_id" value="{{ @PARAMS.id }}" />
-   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+   <button id="save-1" type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
   </div>
  </div>
 </form>

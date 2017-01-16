@@ -20,9 +20,13 @@ class AuthController extends Controller {
 		$user = new User($this->db);
 		$user->getByName($username);
 
-		
-		if($user->dry()) {
-			$this->f3->reroute('/failed/Empty fields!');
+                // Debugging
+                //print_r($user);
+                //echo "clear text password: ".$password."<br/>";
+                //echo "hashed password: ".password_hash($password, PASSWORD_DEFAULT);
+                
+		if($user->dry()) {     
+			$this->f3->reroute('/failed/We could not found any match for your input!');
 		}
 
 		if(password_verify($password, $user->password)) {

@@ -116,9 +116,14 @@ class ProfileController extends Controller {
 			$setting = $device_setting->getSettingByProfileIdCitrix($array);
 
 			if($setting[0]->setting_name == "pna") {
-				// now we need to delete it first.
-				$result['deleted'] = $device_setting->delete($array);
-			}
+                            // now we need to delete it first.
+                            $result['deleted'] = $device_setting->delete($array);
+			} else {
+                            // No citrix settings are currently in the database for this profile
+                            // We can add it
+                            $result['deleted'] = 1;
+                        }
+                        
 
 		} else if ($this->f3->get('POST.optionsRadios') == '2') {
 			$array['setting_name'] = 'pna';
@@ -128,9 +133,14 @@ class ProfileController extends Controller {
 			$setting = $device_setting->getSettingByProfileIdCitrix($array);
 
 			if($setting[0]->setting_name == "storefront") {
-				// now we need to delete it first.
-				$result['deleted'] = $device_setting->delete($array);
-			}
+                            // now we need to delete it first.
+                            $result['deleted'] = $device_setting->delete($array);
+			} else {
+                            // No citrix settings are currently in the database for this profile
+                            // We can add it
+                            $result['deleted'] = 1;
+                        }
+                        
 		} else {
 			// Maybe we have to delete all settings for Citrix
 			$array['disabled'] = 1;
@@ -138,16 +148,16 @@ class ProfileController extends Controller {
 			$setting = $device_setting->getSettingByProfileIdCitrix($array);			
 
 			if($setting[0]->setting_name == "pna") {
-				// now we need to delete it first.
-				$result['deleted'] = $device_setting->delete($array);
+                            // now we need to delete it first.
+                            $result['deleted'] = $device_setting->delete($array);
 			}
 
 			$array['setting_name_alt'] = 'storefront';
 			$setting = $device_setting->getSettingByProfileIdCitrix($array);
 
 			if($setting[0]->setting_name == "storefront") {
-				// now we need to delete it first.
-				$result['deleted'] = $device_setting->delete($array);
+                            // now we need to delete it first.
+                            $result['deleted'] = $device_setting->delete($array);
 			}
 
 			// we had nothing to update

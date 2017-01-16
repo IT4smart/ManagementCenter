@@ -2,6 +2,18 @@
 Installieren von Webserver, PHP und Datenbank.
 `sudo apt-get install apache2 php5 mysql-server php5-mysql curl`
 
+Im Anschluss muss Apache konfiguriert werden. Als erstes ist die 'rewrite ngine' zu aktivieren.
+`sudo a2enmod rewrite`
+
+Nun können wir den vhost anpassen.
+`<Directory /var/www/html>
+    Options Indexes FollowSymlinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    Allow from All
+</Directory>`
+
+
 Um zu überprüfen ob die Installation von PHP erfolgreich ist es nur notwendig eine PHP - Datei zu erstellen mit folgendem Inhalt.
 Dazu erstellen wir noch das Verzeichnis 'Verwaltungskonsole'
 `sudo mkdir /var/www/html/verwaltungskonsole`
@@ -119,8 +131,15 @@ Wir kopieren nun aus dem Verzeichnis 'bootstrtap-3.3.36-dist' den Inhalt in die 
 `sudo mv * /var/www/html/verwaltungskonsole/app/`
 
 # Dependencies #
-bootstrap-datetimepicker (v4.17.43) https://github.com/Eonasdan/bootstrap-datetimepicker
-fontawesome (v4.6.3)
+* bootstrap-datetimepicker (v4.17.43) https://github.com/Eonasdan/bootstrap-datetimepicker
+* fontawesome (v4.6.3)
+
+# MySQL #
+Da wir auf der Datenbank den 'Event scheduler' verwenden um wiederkehrende Aktion durchzuführen, muss die MySQL Konfiguration ein wenig angepasst werden. Sonst ist nach einem Neustart die Einstellung verschwunden. 
+
+Dafürt wird im Verzeichnis '/etc/mysql/mysql.conf.d' die Datei 'it4s.cnf' erstellt. Diese hat den folgenden Inhalt:
+`[mysqld]
+`event_scheduler=on
 
 # Dokumentation #
 Die Dokumentation findet nach dem Prinzip von Doxygen statt. 

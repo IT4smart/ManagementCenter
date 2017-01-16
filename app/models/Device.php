@@ -40,14 +40,15 @@ class Device extends DB\SQL\Mapper {
         }
         
         public function overviewDeviceState() {
-            $this->load(NULL,array('group' => 'state'));
-            return $this->query;
+            $result = $this->db->exec('select * from v_dashboard_device_state');
+            return $result;
         }
         
         /**
          * 
          * @param type $id
          * @param type $state
+         * @param type $user
          */
         public function setDeviceState($id, $state, $user) {
            $result = $this->db->exec('call sp_update_device_state(@out, ?, ?, ?)', array(1=>$id, 2=>$state, 3=>$user));
