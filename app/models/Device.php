@@ -44,7 +44,18 @@ class Device extends DB\SQL\Mapper {
             return $result;
         }
         
+        public function getByFilterGroup($filter, $group) {
+            $result = $this->db->exec('select * from v_filter_devices where device_group_name=? and state=?', array(1=>$group, 2=>$filter));
+            return $result;
+        }
+        
+        public function getByGroup($group) {
+            $result = $this->db->exec('select * from v_filter_devices where device_group_name=?', $group);
+            return $result;
+        }
+        
         /**
+         * Set the current state of a device
          * 
          * @param type $id
          * @param type $state

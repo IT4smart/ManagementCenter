@@ -54,7 +54,9 @@ class DeviceController extends Controller {
   	return (preg_match('/([a-fA-F0-9]{2}[:|\-]?){6}/', $mac) == 1);
     }
 
-
+    /**
+     * Show all devices. No filter
+     */
     function index() {
         $device = new Device($this->db);
 	$devicegroup = new DeviceGroup($this->db);
@@ -68,6 +70,9 @@ class DeviceController extends Controller {
 
     }
 
+    /**
+     * Add a job for the device to restart it
+     */
     function restart() {
         $command = new Command($this->db);
         $job = new Job($this->db);
@@ -128,8 +133,27 @@ class DeviceController extends Controller {
             $this->f3->set('view', 'device/list.htm');
         }
     }
+    
+    function byGroups() {
+        if ($this->f3->get('PARAMS.group') == 'all') {
+            $this->f3->reroute('/device');
+        } else {
+            $device = new Device($this->db);
+            $devicegroup = new DeviceGroup($this->db);
+                        
+            $this->f3->set('devices', $device->getByGroup($this->f3->get('PARAMS.group')));
+            $this->f3->set('devicegroups', $devicegroup->all());
+            $this->f3->set('message', $this->f3->get('PARAMS.message'));
+            $this->f3->set('message_warning', $this->f3->get('PARAMS.message_warning'));
+            $this->f3->set('message_failed', $this->f3->get('PARAMS.message_failed'));
+            $this->f3->set('page_head', $this->f3->get('page_head_device_overview'));
+            $this->f3->set('view', 'device/list.htm');
+        }
+    }
 
-
+    /**
+     * Show detail of a device
+     */
     function detail() {
 	$device = new Device($this->db);
 	$device_profile = new DeviceProfile($this->db);

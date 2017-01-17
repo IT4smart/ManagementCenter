@@ -9,9 +9,9 @@
   </div>
   <div class="list-group">
    <p>Groups:</p>
-   <a href="{{ @BASE }}{{ 'filter_group_list', 'filter=all,groups=all' | alias }}" class="list-group-item text-capitalize">{{ @all }}</a>
+   <a href="{{ @BASE }}{{ 'filter_group_list', 'filter=all,group=all' | alias }}" class="list-group-item text-capitalize">{{ @all }}</a>
    <repeat group="{{ @devicegroups }}" value="{{ @group }}">
-    <a href="#" class="list-group-item">{{ trim(@group.device_group_name) }}</a>
+    <a href="{{ @BASE }}{{ 'filter_group_list', 'group='.@group.device_group_name | alias }}" class="list-group-item">{{ trim(@group.device_group_name) }}</a>
    </repeat>
   </div>
  </div>
