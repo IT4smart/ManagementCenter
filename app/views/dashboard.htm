@@ -78,4 +78,14 @@
             </check>
         </div>
     </repeat>
+    <div class="col-xs-3">
+        <div class="panel panel-info">
+            <div class="panel-heading text-center text-capitalize">{{ @load_server }}</div>
+            <div class="panel-body">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ @current_load[2]*100 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ @current_load[2]*100 }}%;">{{ @current_load[2]*100 }}%</div>    
+                </div>    
+            </div>
+        </div>
+    </div>
 </div>

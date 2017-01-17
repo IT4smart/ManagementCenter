@@ -20,9 +20,10 @@ class MainController extends Controller {
                 
                 $device = new Device($this->db);
 
-                
+                               
                 $this->f3->set('devices_pdata', $device_pdata->overviewDeviceState());
                 $this->f3->set('devices', $device->overviewDeviceState());
+                $this->f3->set('current_load', sys_getloadavg());
 		$this->f3->set('page_head', 'Dashboard');
 		$this->f3->set('view', 'dashboard.htm');
 	}
