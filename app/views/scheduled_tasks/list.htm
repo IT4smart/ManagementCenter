@@ -1,8 +1,39 @@
 <div class="row">
+ <div class="col-md-3">
+  <div class="list-group">
+   <p>{{ @state }}</p>
+   <a href="{{ @BASE.'/system/scheduled-tasks' }}" class="list-group-item">{{ @all }}</a>
+   <a href="{{ @BASE.'/system/scheduled-tasks/state/activated' }}" class="list-group-item">{{ @activated }}</a>
+   <a href="{{ @BASE.'/system/scheduled-tasks/state/deactivated' }}" class="list-group-item">{{ @deactivated }}</a>
+  </div>
+ </div>
  <div class="col-md-9">
   <ul class="nav nav-pills">
-      <li role="presentation" class="active text-capitalize"><a href="{{ @BASE.'/system/scheduled_tasks/create' }}">{{ @create_scheduled_tasks }}</a></li>
+      <li role="presentation" class="active text-capitalize"><a href="{{ @BASE.'/system/scheduled-tasks/create' }}">{{ @create_scheduled_tasks }}</a></li>
   </ul>
   <br/>
+  <table class="table table-hover table-bordered">
+	<thead>
+	 <tr>
+	  <th scope="col" class="text-capitalize">{{ @task_name }}</th>
+	  <th scope="col">{{ @state }}</th>
+	  <th scope="col">{{ @last_change }}</th>
+          <th scope="col" class="text-capitalize">{{ @next_run }}</th>
+	  <th scope="col">{{ @action }}</th>
+	 </tr>
+	</thead>
+
+	<tbody>
+	 <repeat group="{{ @scheduled_tasks }}" value="{{ @st }}">
+		<tr>
+		 <td><a href="{{ @BASE.'/system/scheduled-tasks/detail/'. @st.idscheduled_tasks }}">{{ @st.task_name }}</a></td>
+		 <td>{{ @st.state }}</td>
+		 <td>{{ @_dateformat,strtotime(@st.modify_timestamp) | format }}</td>
+                 <td>{{ @_dateformat,strtotime(@st.next_run) | format }}</td>
+		 <td><a href="{{ @BASE.'/system/scheduled-tasks/delete/'. @st.idscheduled_tasks }}"><i class="glyphicon glyphicon-trash"></i></a></td>
+		</tr>
+	 </repeat>
+	</tbody>
+  </table>
  </div>
 </div>

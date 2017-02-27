@@ -47,6 +47,13 @@ class Job extends DB\SQL\Mapper {
             return $result;
         }
         
+        /**
+         * Add the details of a debian package
+         * @param type $package_name
+         * @param type $version
+         * @param type $device_id
+         * @return type
+         */
         public function addPackageData($package_name, $version, $device_id) {
             $result = $this->db->exec('call sp_insert_device_package_data(@out, ?, ?, ?, ?)', array(1=>$package_name, 2=>$version, 3=>$device_id, 4=>'agent'));
             return $result;

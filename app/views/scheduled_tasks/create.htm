@@ -1,4 +1,8 @@
 <script type="text/javascript">
+    /**
+     * 
+     * @todo    Check if all required fields are filled. If not disable 'save' button.
+     */
             // start date
             $(function () {
                 $('#datetimepicker1').datetimepicker({
@@ -110,7 +114,7 @@ $(document).ready(function() {
 });
 </script>
 
-<form action="{{ @BASE.'/system/scheduled_tasks/create' }}" method="post" class="form-horizontal">
+<form action="{{ @BASE.'/system/scheduled-tasks/create' }}" method="post" class="form-horizontal">
 <div class="panel panel-default">
     <div class="panel-heading">{{ @general }}</div>
     <div class="panel-body">
@@ -228,8 +232,8 @@ $(document).ready(function() {
                             <option class="text-capitalize" value="hour">{{ @hour }}</option>
                             <option class="text-capitalize" value="day">{{ @day }}</option>
                             <option class="text-capitalize" value="week">{{ @week }}</option>
-                            <option class="text-capitalize" value="month">{{ @month }}</option>
-                            <option class="text-capitalize" value="year">{{ @year }}</option>
+                            <!-- <option class="text-capitalize" value="month">{{ @month }}</option>
+                            <option class="text-capitalize" value="year">{{ @year }}</option> -->
                     </select
                 </div>
                 </div>
@@ -239,22 +243,22 @@ $(document).ready(function() {
                     <div class="form-group">
                         <div class="checkbox">
                             <label for="weekdays_monday" class="col-sm-2 control-label text-capitalize">
-                                <input type="checkbox" id="weekdays_monday" name="weekdays[]" value="monday">{{ @monday }}
+                                <input type="checkbox" id="weekdays_monday" name="weekdays[]" value="1">{{ @monday }}
                             </label>
                         </div>
                         <div class="checkbox">
                             <label for="weekdays_tuesday" class="col-sm-2 control-label text-capitalize">
-                                <input type="checkbox" id="weekdays_tuesday" name="weekdays[]" value="tuesday">{{ @tuesday }}
+                                <input type="checkbox" id="weekdays_tuesday" name="weekdays[]" value="2">{{ @tuesday }}
                             </label>
                         </div>
                         <div class="checkbox">
                             <label for="weekdays_wednesday" class="col-sm-2 control-label text-capitalize">
-                                <input type="checkbox" id="weekdays_wednesday" name="weekdays[]" value="wednesday">{{ @wednesday }}
+                                <input type="checkbox" id="weekdays_wednesday" name="weekdays[]" value="3">{{ @wednesday }}
                             </label>
                         </div>
                         <div class="checkbox">
                             <label for="weekdays_thursday" class="col-sm-2 control-label text-capitalize">
-                                <input type="checkbox" id="weekdays_thursday" name="weekdays[]" value="thursday">{{ @thursday }}
+                                <input type="checkbox" id="weekdays_thursday" name="weekdays[]" value="4">{{ @thursday }}
                             </label>
                         </div>
                     </div>
@@ -265,17 +269,17 @@ $(document).ready(function() {
                     <div class="form-group">
                         <div class="checkbox">
                             <label for="weekdays_friday" class="col-sm-2 control-label text-capitalize">
-                                <input type="checkbox" id="weekdays_monday" name="weekdays[]" value="friday">{{ @friday }}
+                                <input type="checkbox" id="weekdays_monday" name="weekdays[]" value="5">{{ @friday }}
                             </label>
                         </div>
                         <div class="checkbox">
                             <label for="weekdays_saturday" class="col-sm-2 control-label text-capitalize">
-                                <input type="checkbox" id="weekdays_tuesday" name="weekdays[]" value="saturday">{{ @saturday }}
+                                <input type="checkbox" id="weekdays_tuesday" name="weekdays[]" value="6">{{ @saturday }}
                             </label>
                         </div>
                         <div class="checkbox">
                             <label for="weekdays_sunday" class="col-sm-2 control-label text-capitalize">
-                                <input type="checkbox" id="weekdays_wednesday" name="weekdays[]" value="sunday">{{ @sunday }}
+                                <input type="checkbox" id="weekdays_wednesday" name="weekdays[]" value="0">{{ @sunday }}
                             </label>
                         </div>
                     </div>
@@ -284,6 +288,20 @@ $(document).ready(function() {
         </tr>
         </div>
     </table>
+ </div>
+ <div class="panel panel-default">
+    <div class="panel-heading text-capitalize">{{ @groups }}</div>
+    <div class="panel-body">
+        <div id="check-12" class="form-group">
+            <label for="InputGroups" class="col-sm-2 control-label text-capitalize">{{ @groups }}</label>
+            <div class="col-sm-8">
+                <select name="groups[]" multiple class="form-control">
+                    <repeat group="{{ @device_groups }}" value="{{ @device_group }}">
+                        <option value="{{ @device_group.iddevice_groups }}">{{ @device_group.device_group_name }}</option>
+                    </repeat>
+                </select>
+            </div>
+        </div>
  </div>
  <div class="control-group">
   <div class="col-sm-offset-2 col-sm-10">

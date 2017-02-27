@@ -19,4 +19,9 @@ class Command extends DB\SQL\Mapper {
             return $this->query;
         }
         
+        public function getByScheduledTasks($task) {
+            $this->load(array('`scheduled_task`=?', $task));
+            return $this->query;
+        }
+        
 }
