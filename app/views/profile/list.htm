@@ -1,14 +1,25 @@
 <div class="row">
- <div class="col-md-offset-1 col-md-9">
-  <div class="list-group">
-   <repeat group="{{ @device_profiles }}" value="{{ @device_profile }}">
-    <div class="list-group-item">
-     <h4 class="list-group-item-heading">{{ trim(@device_profile.profile_name) }} | {{ @_dateformat,strtotime(@device_profile.modify_timestamp) |format }} <span class="text-right"><a href="{{ @BASE.'/profile/update/'. @device_profile.iddevice_profiles }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/profile/delete/'. @device_profile.iddevice_profiles }}"><i class="glyphicon glyphicon-trash"></i></a></span>
-      </h4>
-     <p class="list-group-item-text">{{ nl2br(trim(@device_profile.description)) }}</p>
-    </div>
-   </repeat>
-  </div>
+ <div class="col-md-offset-1 col-md-9">   
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="text-capitalize">{{ @profile_name }}</th>
+                <th class="text-capitalize">{{ @description }}</th>
+                <th class="text-capitalize">{{ @last_change }}</th>
+                <th class="text-capitalize">{{ @action }}</th>
+            </tr>    
+        </thead>    
+        <tbody>
+            <repeat group="{{ @device_profiles }}" value="{{ @device_profile }}">
+                <tr>
+                    <td>{{ trim(@device_profile.profile_name) }}</td>
+                    <td>{{ nl2br(trim(@device_profile.description)) }}</td>
+                    <td>{{ @_dateformat,strtotime(@device_profile.modify_timestamp) |format }}</td>
+                    <td><a href="{{ @BASE.'/profile/update/'. @device_profile.iddevice_profiles }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/profile/delete/'. @device_profile.iddevice_profiles }}"><i class="glyphicon glyphicon-trash"></i></a></td>
+                </tr>   
+            </repeat>
+        </tbody>    
+    </table>    
  </div>
  <div class="col-md-2">
   <ul class="nav nav-pills nav-stacked text-center">

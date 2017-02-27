@@ -1,14 +1,25 @@
 <div class="row">
  <div class="col-md-offset-1 col-md-9">
-  <div class="list-group">
-   <repeat group="{{ @device_groups }}" value="{{ @device_group }}">
-    <div class="list-group-item">
-     <h4 class="list-group-item-heading">{{ trim(@device_group.device_group_name) }} | {{ @_dateformat,strtotime(@device_group.modify_timestamp) |format }} <span class="text-right"><a href="{{ @BASE.'/group/update/'. @device_group.iddevice_groups }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/group/delete/'. @device_profile.iddevice_groups }}"><i class="glyphicon glyphicon-trash"></i></a></span>
-      </h4>
-     <p class="list-group-item-text">{{ nl2br(trim(@device_group.description)) }}</p>
-    </div>
-   </repeat>
-  </div>
+     <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="text-capitalize">{{ @group_name }}</th>
+                <th class="text-capitalize">{{ @description }}</th>
+                <th class="text-capitalize">{{ @last_change }}</th>
+                <th class="text-capitalize">{{ @action }}</th>
+            </tr>    
+        </thead>    
+        <tbody>
+            <repeat group="{{ @device_groups }}" value="{{ @device_group }}">
+                <tr>
+                    <td>{{ trim(@device_group.device_group_name) }}</td>
+                    <td>{{ nl2br(trim(@device_group.description)) }}</td>
+                    <td>{{ @_dateformat,strtotime(@device_group.modify_timestamp) |format }}</td>
+                    <td><a href="{{ @BASE.'/group/update/'. @device_group.iddevice_groups }}"><i class="glyphicon glyphicon-pencil"></i></a> | <a href="{{ @BASE.'/group/delete/'. @device_profile.iddevice_groups }}"><i class="glyphicon glyphicon-trash"></i></a></td>
+                </tr>   
+            </repeat>
+        </tbody>    
+    </table>
  </div>
  <div class="col-md-2">
   <ul class="nav nav-pills nav-stacked text-center">
