@@ -1,6 +1,6 @@
 # Vorbereitungen #
 Installieren von Webserver, PHP und Datenbank.
-`sudo apt-get install apache2 php5 mysql-server php5-mysql curl`
+`sudo apt-get install apache2 php mysql-server php-mysql php-intl curl`
 
 Im Anschluss muss Apache konfiguriert werden. Als erstes ist die 'rewrite ngine' zu aktivieren.
 `sudo a2enmod rewrite`

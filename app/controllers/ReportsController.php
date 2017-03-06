@@ -42,5 +42,20 @@ class ReportsController extends Controller {
         $this->f3->set('pagebrowser', $pages->serve());
         $this->f3->set('view', 'reports/overview-jobs.htm');
     }
+    
+    function overview_logs() {
+        $reports = new Reports($this->db);
+        
+        // prepare language
+        $lang = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        
+        $subset = $reports->getOverviewLogs($lang);
+        $pages = new Pagination($subset['total'], $subset['limit']);
+        
+        $this->f3->set('page_head', $this->f3->get('page_head_reports_overview_logs'));
+	$this->f3->set('report_ol', $subset);
+        $this->f3->set('pagebrowser', $pages->serve());
+        $this->f3->set('view', 'reports/overview-logs.htm');
+    }
 }
     
