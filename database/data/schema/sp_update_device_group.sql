@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_group`(OUT sp_result INT, IN sp_group_id int, IN sp_group_name varchar(45), IN sp_description text, IN sp_state int, IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_update_device_group`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_device_group`(OUT sp_result INT, IN sp_group_id int, IN sp_group_name varchar(45), IN sp_description text, IN sp_state int, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -55,4 +58,5 @@ BEGIN
         call sp_insert_log_entry('', '48', v_message, 'failed', sp_user);
     end if;    
 
-END
+END//
+DELIMITER ;

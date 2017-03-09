@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_user_email`(OUT sp_result int, IN sp_iduser int, IN sp_email varchar(90), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_update_user_email`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_user_email`(OUT sp_result int, IN sp_iduser int, IN sp_email varchar(90), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -57,4 +60,5 @@ BEGIN
         call sp_insert_log_entry('', '54', v_message, 'failed', sp_user);
     end if;
     
-END
+END//
+DELIMITER ;

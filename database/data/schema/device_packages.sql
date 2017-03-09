@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `device_packages`;
 CREATE TABLE `device_packages` (
   `iddevice_packages` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
@@ -11,4 +12,4 @@ CREATE TABLE `device_packages` (
   PRIMARY KEY (`iddevice_packages`),
   KEY `fk_device_packages_device1_idx` (`device_iddevice`),
   CONSTRAINT `fk_device_packages_device1` FOREIGN KEY (`device_iddevice`) REFERENCES `device` (`iddevice`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2615 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

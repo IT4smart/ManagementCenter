@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `translations`;
 CREATE TABLE `translations` (
   `idtranslations` int(11) NOT NULL AUTO_INCREMENT,
   `messages_idmessages` int(11) NOT NULL,
@@ -12,4 +13,4 @@ CREATE TABLE `translations` (
   KEY `fk_translations_messages1` (`messages_idmessages`),
   CONSTRAINT `fk_translations_locales1` FOREIGN KEY (`locales_idlocales`) REFERENCES `locales` (`idlocales`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_translations_messages1` FOREIGN KEY (`messages_idmessages`) REFERENCES `messages` (`idmessages`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

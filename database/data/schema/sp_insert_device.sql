@@ -1,17 +1,20 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_device`(OUT sp_result int, IN sp_device_name varchar(45), IN sp_mac_address varchar(45), IN sp_serialnumber varchar(45), IN sp_note text, IN sp_device_type int, IN sp_device_group int, IN sp_photo varchar(255), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_insert_device`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_insert_device`(OUT sp_result int, IN sp_device_name varchar(45), IN sp_mac_address varchar(45), IN sp_serialnumber varchar(45), IN sp_note text, IN sp_device_type int, IN sp_device_group int, IN sp_photo varchar(255), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
     --                  Copyright by IT4S GmbH 2015
     -- ------------------------------------------------------------
     --  Created     : 07.12.2015
-    --  Last change : 07.12.2015
+    --  Last change : 11.08.2016
     --  Version     : 1.0
     --  Author      : Raphael Lekies (IT4S)
     --  Description : We insert log entries, atfer the device created
     --
     --  07.12.2015  : Created
-    --	11.08.2016	: Add insert for command job
+    --	11.08.2016  : Add insert for command job
     --
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -64,4 +67,5 @@ BEGIN
         call sp_insert_log_entry('', '10', v_message, 'failed', sp_user);
     end if;
 
-END
+END//
+DELIMITER ;

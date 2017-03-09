@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_device_to_register`(OUT sp_result int, IN sp_mac varchar(45), IN sp_hostname varchar(45), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_insert_device_to_register`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_insert_device_to_register`(OUT sp_result int, IN sp_mac varchar(45), IN sp_hostname varchar(45), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -55,4 +58,5 @@ BEGIN
         set v_message = (SELECT CONCAT(sp_mac, '#', `code`, '#', msg));
         call sp_insert_log_entry('', 82, v_message, 'failed', sp_user);
     end if;
-END
+END//
+DELIMITER ;

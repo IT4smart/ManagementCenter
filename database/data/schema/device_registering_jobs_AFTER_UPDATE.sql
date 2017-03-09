@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`%` TRIGGER `verwaltungskonsole_v1`.`device_registering_jobs_AFTER_UPDATE` AFTER UPDATE ON `device_registering_jobs` FOR EACH ROW
+CREATE TRIGGER `verwaltungskonsole_v1`.`device_registering_jobs_AFTER_UPDATE` AFTER UPDATE ON `device_registering_jobs` FOR EACH ROW
 BEGIN
 
 	declare v_message text;

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `logs`;
 CREATE TABLE `logs` (
   `idlogs` int(11) NOT NULL AUTO_INCREMENT,
   `device_name` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -12,4 +13,4 @@ CREATE TABLE `logs` (
   KEY `fk_logs_messages1` (`messages_idmessages`),
   KEY `idx_logs_messages_idmessages` (`messages_idmessages`),
   CONSTRAINT `fk_logs_messages1` FOREIGN KEY (`messages_idmessages`) REFERENCES `messages` (`idmessages`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Logging all actions'
+) ENGINE=InnoDB AUTO_INCREMENT=2400346 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Logging all actions';

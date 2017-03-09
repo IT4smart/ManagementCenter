@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_command_jobs`(OUT sp_result int, IN sp_user varchar(45), IN sp_idcommand_jobs int, IN sp_status varchar(7), IN sp_message text)
+DROP PROCEDURE IF EXISTS `sp_update_command_jobs`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_command_jobs`(OUT sp_result int, IN sp_user varchar(45), IN sp_idcommand_jobs int, IN sp_status varchar(7), IN sp_message text)
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -21,7 +24,7 @@ BEGIN
     declare vc_description text;
     declare v_message text;
     declare vc_command_name varchar(45);
-	declare v_interval int;
+    declare v_interval int;
     declare v_commandid int;
     declare v_deviceid int;
     DECLARE code CHAR(5) DEFAULT '00000';
@@ -150,4 +153,5 @@ BEGIN
         
     END IF;
 
-END
+END//
+DELIMITER ;

@@ -1,8 +1,4 @@
-DELIMITER //
-CREATE EVENT IF NOT EXISTS check_device_state
-ON SCHEDULE EVERY 1 MINUTE
-STARTS CURRENT_TIMESTAMP
-DO BEGIN
+CREATE EVENT `check_device_state` ON SCHEDULE EVERY 1 MINUTE STARTS '2016-09-28 11:51:40' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
     -- declare cursor
     declare v_state varchar(7);
     declare v_date datetime;
@@ -42,5 +38,4 @@ DO BEGIN
     
     close state_cursor;
 
-END //
-DELIMITER ;
+END

@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_device_profiles_to_device_groups`(OUT sp_result int, IN sp_idprofile int, IN sp_idgroup int, IN sp_order int, IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_insert_device_profiles_to_device_groups`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_insert_device_profiles_to_device_groups`(OUT sp_result int, IN sp_idprofile int, IN sp_idgroup int, IN sp_order int, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -64,4 +67,5 @@ BEGIN
         set v_message = (SELECT CONCAT(v_profile_name, '#', v_device_group,'#', code, '#', msg));
         call sp_insert_log_entry('', '20', v_message, 'failed', sp_user);
     end if;
-END
+END//
+DELIMITER ;

@@ -1,11 +1,14 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_command_jobs`(OUT sp_result int, IN sp_idcommands int, IN sp_iddevice int, IN sp_interval int, IN sp_payload text, IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_insert_command_jobs`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_insert_command_jobs`(OUT sp_result int, IN sp_idcommands int, IN sp_iddevice int, IN sp_interval int, IN sp_payload text, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
     --                  Copyright by IT4S GmbH 2015
     -- ------------------------------------------------------------
     --  Created     : 04.12.2015
-    --  Last change : 04.12.2015
+    --  Last change : 12.08.2016
     --  Version     : 1.0
     --  Author      : Raphael Lekies (IT4S)
     --  Description : We update the command jobs and insert some
@@ -72,4 +75,5 @@ BEGIN
         set v_message = (SELECT CONCAT(vc_command_name, '#', vdevice_name, '#', `code`, '#', msg));
         call sp_insert_log_entry('', 66, v_message, 'failed', sp_user);
     end if;
-END
+END//
+DELIMITER ;

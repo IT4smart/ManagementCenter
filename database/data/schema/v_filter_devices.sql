@@ -1,0 +1,2 @@
+DROP VIEW IF EXISTS `v_filter_devices`;
+CREATE VIEW `v_filter_devices` AS select `d`.`iddevice` AS `iddevice`,`d`.`device_name` AS `device_name`,`d`.`state` AS `state`,`d`.`mac_address` AS `mac_address`,`dg`.`device_group_name` AS `device_group_name` from ((`device` `d` join `devices_to_device_groups` `d2dg` on((`d`.`iddevice` = `d2dg`.`device_iddevice`))) join `device_groups` `dg` on((`d2dg`.`device_groups_iddevice_groups` = `dg`.`iddevice_groups`)));

@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_performance_data`(OUT sp_result int, IN sp_iddevice int, IN sp_name varchar(45), IN sp_value varchar(45), IN sp_jobid varchar(5), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_update_device_performance_data`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_device_performance_data`(OUT sp_result int, IN sp_iddevice int, IN sp_name varchar(45), IN sp_value varchar(255), IN sp_jobid int, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -48,11 +51,13 @@ BEGIN
         -- insert was successfull
         set sp_result = 1;
         
-        -- set job done
-        call sp_update_command_jobs(@out, 'agent', sp_jobid, 'success', '');
+        -- set job done, only for jobs where the sp called once
+        IF sp_name = "state" THEN
+			call sp_update_command_jobs(@out, 'agent', sp_jobid, 'success', '');
+        END IF;
         
         -- now we can write a log
-        set v_message = (SELECT CONCAT(v_device_name, '#', sp_value));
+        set v_message = (SELECT CONCAT(sp_name, '#', v_device_name, '#', sp_value));
         call sp_insert_log_entry('', 61, v_message, 'success', sp_user);
         
     else
@@ -67,4 +72,5 @@ BEGIN
         set v_message = (SELECT CONCAT(v_device_name, '#', code, '#', msg));
         call sp_insert_log_entry('', 63, v_message, 'failed', sp_user);
     end if;    
-END
+END//
+DELIMITER ;

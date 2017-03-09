@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device`(OUT sp_result int, IN sp_iddevice int, IN sp_device_name varchar(45), IN sp_mac_address varchar(45), IN sp_ip_address varchar(45), IN sp_serialnumber varchar(45), IN sp_note text, IN sp_device_type int, IN sp_device_group int, IN sp_photo varchar(255), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_update_device`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_device`(OUT sp_result int, IN sp_iddevice int, IN sp_device_name varchar(45), IN sp_mac_address varchar(45), IN sp_ip_address varchar(45), IN sp_serialnumber varchar(45), IN sp_note text, IN sp_device_type int, IN sp_device_group int, IN sp_photo varchar(255), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -67,4 +70,5 @@ BEGIN
         call sp_insert_log_entry('', '32', v_message, 'failed', sp_user);
     end if;
 
-END
+END//
+DELIMITER ;

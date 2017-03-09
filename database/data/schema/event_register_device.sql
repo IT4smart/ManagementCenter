@@ -1,8 +1,4 @@
-DELIMITER //
-CREATE EVENT IF NOT EXISTS register_device
-ON SCHEDULE EVERY 1 MINUTE
-STARTS CURRENT_TIMESTAMP
-DO BEGIN
+CREATE EVENT `register_device` ON SCHEDULE EVERY 1 MINUTE STARTS '2016-10-08 21:57:41' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
 	-- declare variables
     declare v_id int;
     declare v_mac varchar(45);
@@ -57,5 +53,4 @@ DO BEGIN
     close device_cursor;
 
 
-END //
-DELIMITER ;
+END

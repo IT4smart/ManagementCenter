@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_delete_device_profile_settings`(OUT sp_result int, IN sp_iddevice_profile int, IN sp_categorie varchar(45), IN sp_setting_name varchar(45), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_delete_device_profile_settings`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_delete_device_profile_settings`(OUT sp_result int, IN sp_iddevice_profile int, IN sp_categorie varchar(45), IN sp_setting_name varchar(45), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -60,4 +63,5 @@ BEGIN
         call sp_insert_log_entry('', '45', v_message, 'failed', sp_user);
     end if;  
     
-END
+END//
+DELIMITER ;

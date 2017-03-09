@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `device_performance_data`;
 CREATE TABLE `device_performance_data` (
   `iddevice_performance_data` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'fqdn; os_version; last_boot; cpu; ram; gateway; dns; ntp; state',
@@ -11,4 +12,4 @@ CREATE TABLE `device_performance_data` (
   PRIMARY KEY (`iddevice_performance_data`),
   KEY `fk_device_performance_data_device1` (`device_iddevice`),
   CONSTRAINT `fk_device_performance_data_device1` FOREIGN KEY (`device_iddevice`) REFERENCES `device` (`iddevice`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='we can collacte all data from device frequently'
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='we can collacte all data from device frequently';

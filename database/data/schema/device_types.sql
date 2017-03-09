@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `device_types`;
 CREATE TABLE `device_types` (
   `iddevice_types` int(11) NOT NULL AUTO_INCREMENT,
   `device_type_name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
@@ -8,4 +9,4 @@ CREATE TABLE `device_types` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`iddevice_types`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Our different products'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Our different products';

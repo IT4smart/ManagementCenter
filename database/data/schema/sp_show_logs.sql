@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_show_logs`(IN sp_device_name varchar(45), IN sp_locals varchar(45))
+DROP PROCEDURE IF EXISTS `sp_show_logs`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_show_logs`(IN sp_device_name varchar(45), IN sp_locals varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -35,7 +38,7 @@ BEGIN
 	SET Vlocals = (SELECT CONCAT(sp_locals, '%'));
     
 	-- create temp table as first
-	CREATE TEMPORARY TABLE `tmp_logs` (
+	CREATE TEMPORARY TABLE IF NOT EXISTS`tmp_logs` (
 	`device_name` varchar(45) NULL,
 	`status_code` varchar(15) NULL,
 	`modify_user` varchar(45) NULL,
@@ -45,13 +48,16 @@ BEGIN
 	`idlocales` varchar(5) NULL,
 	`values` varchar(200) NULL
 	);
+    
+    
+    truncate table `tmp_logs`;
 
 	-- declare cursor
     BEGIN     
 	 DECLARE cursor_log CURSOR FOR
 	 SELECT `device_name`, `status_code`, `modify_user`, `modify_timestamp`, `level`, `text_translation`, `idlocales`, `values` FROM v_logs 
 	 WHERE 1=1
-     AND `idlocales` like Vlocals
+     AND (`idlocales` = sp_locals or `idlocales` = 'en_US')
 	 AND CASE WHEN sp_device_name <> '' THEN `device_name` = sp_device_name ELSE ((`device_name` = '' or `device_name` = sp_device_name)) END;
      
 	 -- declare NOT FOUND handler
@@ -116,4 +122,5 @@ BEGIN
 
  SELECT * FROM tmp_logs;
  DROP TABLE tmp_logs;
-END
+END//
+DELIMITER ;

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `device`;
 CREATE TABLE `device` (
   `iddevice` int(11) NOT NULL AUTO_INCREMENT,
   `device_types_iddevice_types` int(11) NOT NULL,
@@ -16,4 +17,4 @@ CREATE TABLE `device` (
   KEY `idx_device_name` (`device_name`),
   KEY `fk_device_device_types1` (`device_types_iddevice_types`),
   CONSTRAINT `fk_device_device_types1` FOREIGN KEY (`device_types_iddevice_types`) REFERENCES `device_types` (`iddevice_types`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

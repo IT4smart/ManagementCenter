@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `device_registering_jobs`;
 CREATE TABLE `device_registering_jobs` (
   `iddevice_registering_jobs` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` datetime NOT NULL,
@@ -11,4 +12,4 @@ CREATE TABLE `device_registering_jobs` (
   `modify_timestamp` datetime NOT NULL,
   `modify_user` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`iddevice_registering_jobs`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

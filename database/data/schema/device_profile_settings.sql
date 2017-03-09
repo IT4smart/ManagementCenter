@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `device_profile_settings`;
 CREATE TABLE `device_profile_settings` (
   `iddevice_profile_settings` int(11) NOT NULL AUTO_INCREMENT,
   `device_profiles_iddevice_profiles` int(11) NOT NULL,
@@ -14,4 +15,4 @@ CREATE TABLE `device_profile_settings` (
   KEY `idx_setting_categorie_name` (`setting_categorie_name`),
   KEY `idx_setting_name` (`setting_name`),
   CONSTRAINT `fk_device_profile_settings_device_profiles1` FOREIGN KEY (`device_profiles_iddevice_profiles`) REFERENCES `device_profiles` (`iddevice_profiles`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_user`(OUT sp_result int, IN sp_usergroup_id int, IN sp_username varchar(45), IN sp_password varchar(90), IN sp_email varchar(45), IN sp_state int, IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_insert_user`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_insert_user`(OUT sp_result int, IN sp_usergroup_id int, IN sp_username varchar(45), IN sp_password varchar(90), IN sp_email varchar(45), IN sp_state int, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -66,4 +69,5 @@ BEGIN
 	 END;
     end if;
     
-END
+END//
+DELIMITER ;

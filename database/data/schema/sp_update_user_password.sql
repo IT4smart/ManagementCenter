@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_user_password`(OUT sp_result int, IN sp_iduser int, IN sp_password varchar(90), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_update_user_password`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_user_password`(OUT sp_result int, IN sp_iduser int, IN sp_password varchar(90), IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -12,7 +15,7 @@ BEGIN
 	--  			  updated
     --
     --  24.12.2015  : Created
-    --  21.02.2016	: Change to only update users password.
+    --  21.02.2016  : Change to only update users password.
     --
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -20,7 +23,7 @@ BEGIN
    
     -- declare variable
     declare v_message text;
-	declare v_username varchar(45);
+    declare v_username varchar(45);
     DECLARE code CHAR(5) DEFAULT '00000';
     DECLARE msg TEXT;
     DECLARE rows INT;
@@ -57,6 +60,5 @@ BEGIN
         set v_message = (SELECT CONCAT(v_username, '#', code, '#', msg));
         call sp_insert_log_entry('', '7', v_message, 'failed', sp_user);
     end if;
-
-
-END
+END//
+DELIMITER ;

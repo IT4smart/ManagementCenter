@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_device_package_data`(OUT sp_result int, IN sp_package_name varchar(45), IN sp_version varchar(45), IN sp_deviceid int, IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_insert_device_package_data`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_insert_device_package_data`(OUT sp_result int, IN sp_package_name varchar(45), IN sp_version varchar(45), IN sp_deviceid int, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -63,4 +66,5 @@ BEGIN
         set v_message = (SELECT CONCAT(sp_package_name, '#', v_device_name, '#', `code`, '#', msg));
         call sp_insert_log_entry('', 79, v_message, 'failed', sp_user);
     end if;
-END
+END//
+DELIMITER ;

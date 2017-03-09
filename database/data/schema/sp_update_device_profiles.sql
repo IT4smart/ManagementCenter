@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_profiles`(OUT sp_result int, IN sp_idprofile int, IN sp_profile_name varchar(45), IN sp_description text, IN sp_state int, IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_update_device_profiles`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_device_profiles`(OUT sp_result int, IN sp_idprofile int, IN sp_profile_name varchar(45), IN sp_description text, IN sp_state int, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -54,4 +57,5 @@ BEGIN
         set v_message = (SELECT CONCAT(sp_profile_name, '#', code, '#', msg));
         call sp_insert_log_entry('', '35', v_message, 'failed', sp_user);
     end if;       
-END
+END//
+DELIMITER ;

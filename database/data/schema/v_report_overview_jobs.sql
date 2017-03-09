@@ -1,0 +1,3 @@
+DROP VIEW IF EXISTS `v_report_overview_jobs`;
+CREATE VIEW `v_report_overview_jobs` AS select `cj`.`idcommand_jobs` AS `idcommand_jobs`,`cj`.`timestamp` AS `timestamp`,`cj`.`state` AS `state`,`c`.`idcommands` AS `idcommands`,`c`.`command_name` AS `command_name`,`c`.`description` AS `description`,`c`.`command` AS `command`,`c`.`interval` AS `interval`,`d`.`iddevice` AS `iddevice`,`d`.`device_name` AS `device_name`,`d`.`mac_address` AS `mac_address` from ((`command_jobs` `cj` join `commands` `c` on((`cj`.`commands_idcommands` = `c`.`idcommands`))) join `device` `d` on((`cj`.`device_iddevice` = `d`.`iddevice`)));
+

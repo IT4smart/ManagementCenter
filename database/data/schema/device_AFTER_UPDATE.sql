@@ -1,8 +1,8 @@
-CREATE DEFINER=`root`@`%` TRIGGER `verwaltungskonsole_v1`.`device_AFTER_UPDATE` AFTER UPDATE ON `device` FOR EACH ROW
+CREATE TRIGGER `verwaltungskonsole_v1`.`device_AFTER_UPDATE` AFTER UPDATE ON `device` FOR EACH ROW
 BEGIN
 
 	declare v_idcommand int;
-    declare v_interval int;
+        declare v_interval int;
     
 	-- insert jobs to collect data
 	declare no_more_rows boolean;
@@ -18,7 +18,18 @@ BEGIN
         VALUES ('state', 'offline', null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
 			('last_check', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
             ('uptime', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
-            ('ip', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('net_ip', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('net_speed', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('net_type', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('net_subnetmask', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('net_gateway', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('net_dns1', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('net_dns2', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('cpu_family', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('cpu_speed', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('cpu_cores', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('memory_total', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
+            ('memory_free', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
             ('architecture', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice),
             ('kernel_version', null, null, now(), 'trigger', now(), 'trigger', OLD.iddevice);
             

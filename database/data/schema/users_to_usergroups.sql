@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `users_to_usergroups`;
 CREATE TABLE `users_to_usergroups` (
   `idusers_to_usergroups` int(11) NOT NULL AUTO_INCREMENT,
   `users_idusers` int(11) NOT NULL,
@@ -11,4 +12,4 @@ CREATE TABLE `users_to_usergroups` (
   KEY `fk_users_to_usergroups_users1` (`users_idusers`),
   CONSTRAINT `fk_users_to_usergroups_usergroups1` FOREIGN KEY (`usergroups_idusergroups`) REFERENCES `usergroups` (`idusergroups`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_to_usergroups_users1` FOREIGN KEY (`users_idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

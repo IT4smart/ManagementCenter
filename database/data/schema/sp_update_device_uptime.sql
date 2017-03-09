@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_update_device_uptime`(OUT sp_result int, IN sp_iddevice int, IN sp_name varchar(45), IN sp_value varchar(45), IN sp_jobid varchar(5), IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_update_device_uptime`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_update_device_uptime`(OUT sp_result int, IN sp_iddevice int, IN sp_name varchar(45), IN sp_value varchar(45), IN sp_jobid int, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -67,4 +70,5 @@ BEGIN
         set v_message = (SELECT CONCAT(v_device_name, '#', code, '#', msg));
         call sp_insert_log_entry('', 76, v_message, 'failed', sp_user);
     end if;    
-END
+END//
+DELIMITER ;

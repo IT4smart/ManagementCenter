@@ -1,4 +1,7 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_insert_usergroup`(OUT sp_result int, IN sp_groupname varchar(45), IN sp_description text, IN sp_user varchar(45))
+DROP PROCEDURE IF EXISTS `sp_insert_usergroup`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_insert_usergroup`(OUT sp_result int, IN sp_groupname varchar(45), IN sp_description text, IN sp_user varchar(45))
 BEGIN
     -- ------------------------------------------------------------
     -- ------------------------------------------------------------
@@ -53,4 +56,5 @@ BEGIN
         set v_message = (SELECT CONCAT(sp_groupname, '#', code, '#', msg));
         call sp_insert_log_entry('', '57', v_message, 'failed', sp_user);
     end if;
-END
+END//
+DELIMITER ;

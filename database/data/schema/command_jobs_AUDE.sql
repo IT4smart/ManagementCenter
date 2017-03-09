@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`%` TRIGGER command_jobs_AUDE AFTER UPDATE ON command_jobs FOR EACH ROW
+CREATE TRIGGER command_jobs_AUDE AFTER UPDATE ON command_jobs FOR EACH ROW
 BEGIN
 
 declare new_time datetime;
@@ -11,4 +11,4 @@ IF NEW.state = 'failed' THEN
     where idcommand_jobs = old.idcommand_jobs;
  END;
 END IF;
-END
+END 
