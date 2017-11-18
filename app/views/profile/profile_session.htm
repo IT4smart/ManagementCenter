@@ -1,0 +1,148 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        if(($('#cnt_ctx_setting').val() > 0) && ($('#cnt_rdp_setting').val() == 0)) {
+            $('#optionsRadios2').prop('checked', true);
+            $('#optionsRadios1').prop('checked', false);
+        }
+        
+        if(($('#cnt_rdp_setting').val() > 0) && ($('#cnt_ctx_setting').val() == 0)) {
+            $('#optionsRadios1').prop('checked', true);
+            $('#optionsRadios2').prop('checked', false);
+        }
+        
+        // if rdp is checked
+        if($('#optionsRadios1').is(':checked')) {
+            $('#inputXenDesktop').prop('disabled', true);
+            $('#setting_categorie_name').val('RDP');
+        }
+        
+        // if citrix is checked
+        if($('#optionsRadios2').is(':checked')) {
+            $('#inputRdpServer').prop('disabled', true);
+            $('#inputRdpDomain').prop('disabled', true);
+            $('#setting_categorie_name').val('Citrix');
+        }
+        
+        // If user changes radio button we enable or disable the input fields
+        $('#optionsRadios1').change(function() {
+            if($('#optionsRadios1').is(':checked')) {
+                console.log('rdp clicked');
+                $('#inputXenDesktop').prop('disabled', true);
+                $('#inputRdpServer').prop('disabled', false);
+                $('#inputRdpDomain').prop('disabled', false);
+                $('#setting_categorie_name').val('RDP');
+            }
+        });    
+        
+        $('#optionsRadios2').change(function() {
+            if($('#optionsRadios2').is(':checked')) {
+                console.log('citrix clicked');
+                $('#inputRdpServer').prop('disabled', true);
+                $('#inputRdpDomain').prop('disabled', true);
+                $('#inputXenDesktop').prop('disabled', false);
+                $('#setting_categorie_name').val('Citrix');
+
+            }
+        });
+    });
+</script>    
+<div class="row">
+ <div class="col-md-2">
+  <include href="profile/profile_nav.htm" />
+ </div>
+ <div class="col-md-10">
+    <form class="form-horizontal" action="{{ @BASE.'/profile/session' }}" >
+        <!-- Citrix Session -->
+        <div class="panel panel-default">
+            <div class="form-group">
+            <div class="panel-heading">
+                <div class="input-group">
+                    <label>
+                        <input type="hidden" id="cnt_ctx_setting" value="{{ @cnt_ctx_setting }}" >
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" >
+                        {{ @ctx_xen_desktop }}
+                    </label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <label for="InputXenDesktop" class="col-sm-2 control-label">{{ @storefront_url }}</label>
+                <div class="col-sm-8">
+                    <check if="{{ @ctx_profile_settings[0].setting_name == 'storefront' }}">
+                        <true>
+                            <input type="text" name="storefront_url" class="form-control" id="inputXenDesktop" value="{{ @ctx_profile_settings[0].value }}">
+                        </true>
+                        <false>
+                            <input type="text" name="storefront_url" class="form-control" id="inputXenDesktop">
+                        </false>
+                    </check>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <!-- Microsoft RDP Session -->
+        <div class="panel panel-default">
+            <div class="form-group">
+            <div class="panel-heading">
+                <div class="input-group">
+                    <label>
+                        <input type="hidden" id="cnt_rdp_setting" value="{{ @cnt_rdp_setting }}" >
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" >
+                        Microsoft Remote Desktop
+                    </label>
+                </div>    
+            </div>
+            <div class="panel-body">
+                <div id="GroupRdpServer" class="form-group">
+                    <label for="InputRdpServer" class="col-sm-2 control-label">{{ @rdp_url }}</label>
+                        <div class="col-sm-8">
+                            <check if="{{ @device_profile_setting_count > '0' }}">
+                                <true>
+                                    <check if="{{ @device_profile_settings[1].setting_name == 'rdp_url' }}">
+                                        <true>
+                                            <input type="text" name="rdp_url" class="form-control" id="inputRdpServer" value="{{ @device_profile_settings[1].value }}">
+                                        </true>
+                                        <false>
+                                            <input type="text" name="rdp_url" class="form-control" id="inputRdpServer">
+                                        </false>
+                                    </check>
+                                </true>
+                                <false>
+                                    <input type="text" name="rdp_url" class="form-control" id="inputRdpServer">
+                                </false>
+                            </check>
+                            <div id="inputRdpServerCollapsible">
+                                <span id="helpBlock" class="help-block">{{ @empty_field }}</span>
+                            </div>
+                        </div>
+                </div>
+                <div id="GroupRdpDomain" class="form-group">
+                    <label for="InputRdpDomain" class="col-sm-2 control-label">{{ @rdp_domain }}</label>
+                    <div class="col-sm-8">
+                        <check if="{{ @device_profile_settings[0].setting_name == 'rdp_domain' }}">
+                            <true>
+                                <input type="text" name="rdp_domain" class="form-control" id="inputRdpDomain" value="{{ @device_profile_settings[0].value }}">
+                            </true>
+                            <false>
+                                <input type="text" name="rdp_domain" class="form-control" id="inputRdpDomain">
+                            </false>
+                        </check>
+                        <div id="inputRdpDomainCollapsible">
+                            <span id="helpBlock" class="help-block">{{ @empty_field }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+  </div>
+  <div class="control-group">
+   <div class="col-sm-offset-2 col-sm-10">
+    <input type="hidden" name="update" value="update" />
+    <input type="hidden" name="profile_id" value="{{ @PARAMS.id }}" />
+    <input type="hidden" name="setting_categorie_name" id="setting_categorie_name" value="Citrix" />
+    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> {{ @save_changes }}</button>
+   </div>
+  </div>
+</form>
+ </div>
+</div>

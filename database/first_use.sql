@@ -15,7 +15,8 @@ INSERT IGNORE INTO `commands` VALUES
 (4,'Package Data','Get information of all installed packages','get_package_data',60,now(),'admin',now(),'admin'),
 (5,'Register','Add an unknown device','register_device',0,now(),'admin',now(),'admin'),
 (6,'Device Data','Get information about the device','get_device_data',10,now(),'admin',now(),'admin'),
-(7,'Shutdown','Shutdown the device','shutdown',0,now(),'admin',now(),'admin');
+(7,'Shutdown','Shutdown the device','shutdown',0,now(),'admin',now(),'admin')
+(8, 'Update device setting', 'Update the device setting', 'update_device_setting', 0, now(), 'admin', now(), 'admin');
 /*!40000 ALTER TABLE `commands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -34,7 +35,7 @@ LOCK TABLES `device_types` WRITE;
 /*!40000 ALTER TABLE `device_types` DISABLE KEYS */;
 INSERT IGNORE INTO `device_types` VALUES 
 (1,'TC light','ThinClient light version',1,now(),'admin',now(),'admin'),
-(2, 'TC mulitmedia', 'ThinClient with multimedia support', 1, now(), 'admin', now(), 'admin');
+(2, 'TC multimedia', 'ThinClient with multimedia support', 1, now(), 'admin', now(), 'admin');
 /*!40000 ALTER TABLE `device_types` ENABLE KEYS */;
 UNLOCK TABLES;
 

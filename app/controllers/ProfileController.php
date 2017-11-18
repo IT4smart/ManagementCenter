@@ -13,7 +13,6 @@
  * @brief This is a class to demonstrate how to use Doxygen in this project.
  * @todo Replace all success and failed messages with translations. Also implement for display them.
  */
-
 class ProfileController extends Controller {
     	function afterroute() {
             echo Template::instance()->render('layout.htm');
@@ -90,6 +89,58 @@ class ProfileController extends Controller {
 	return $device_setting->getNumberOfRows($array);
    }
 
+   /**
+    * configure remote sessions
+    */
+   function profile_session() {
+       $device_setting = new DeviceSetting($this->db);
+       
+       if($this->f3->exists('POST.update')) {
+            $array['iddevice_profile'] = $this->f3->get('POST.profile_id');
+            $array['categorie'] = $this->f3->get('POST.setting_categorie_name');
+            $array['session_user'] = $this->f3->get('SESSION.user');
+
+            // We insert settings for a citrix session
+            if($array['categorie'] == "Citrix") {
+                // Check if we have rdp settings
+                $array['categorie'] = "RDP";
+                if($device_setting->getNumberOfRows($array) > 0) {
+                    // There are some rdp settings. We delete them.
+                    
+                }
+                
+            }
+           
+       } else {
+           $array['iddevice_profile'] = $this->f3->get('PARAMS.id');
+           
+           // get citrix settings
+           $array['categorie'] = 'Citrix';
+           $cnt_ctx_setting = $device_setting->getNumberOfRows($array);
+           
+           // check if citrix settings exists
+           if($cnt_ctx_setting > 0) {
+            $citrix_settings = $device_setting->getByProfileId($array);
+            $this->f3->set('ctx_profile_settings', $citrix_settings);
+           }
+           
+           // get rdp settings
+           $array['categorie'] = 'RDP';
+           $cnt_rdp_setting = $device_setting->getNumberOfRows($array);
+           
+           // check if rdp settings exists
+           if($cnt_rdp_setting > 0) {
+            $rdp_settings = $device_setting->getByProfileId($array);
+            $this->f3->set('rdp_profile_settings', $rdp_settings);
+           }
+           
+           $this->f3->set('page_head', $this->f3->get('page_head_session_settings'));
+           $this->f3->set('cnt_ctx_setting', $cnt_ctx_setting);
+           $this->f3->set('cnt_rdp_setting', $cnt_rdp_setting);
+           $this->f3->set('view', 'profile/profile_session.htm');
+           
+       }
+   }
 
    /**
     * @todo	At file 'profile_ctx.htm' we have to add that input fields can be disabled and enabled if a specific radiobutton clicked.

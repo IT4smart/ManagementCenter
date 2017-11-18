@@ -6,18 +6,13 @@ class DeviceSetting extends DB\SQL\Mapper {
 		parent::__construct($db, 'v_device_profile_settings');
 	}
 
-	public function getByProfileIdCitrix($array) {
+        public function getByProfileId($array) {
 		$this->load(array('device_profiles_iddevice_profiles=? AND setting_categorie_name=?', array(1=>$array['iddevice_profile'], 2=>$array['categorie'])));
 		return $this->query;
 	}
 
 	public function getSettingByProfileIdCitrix($array) {
 		$this->load(array('device_profiles_iddevice_profiles=? AND setting_categorie_name=? AND setting_name=?', array(1=>$array['iddevice_profile'], 2=>$array['categorie'], 3=>$array['setting_name_alt'])));
-		return $this->query;
-	}
-
-	public function getByProfileIdRdp($array) {
-		$this->load(array('device_profiles_iddevice_profiles=? AND setting_categorie_name=?', array(1=>$array['iddevice_profile'], 2=>$array['categorie'])));
 		return $this->query;
 	}
 
